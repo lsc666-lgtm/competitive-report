@@ -1,0 +1,2694 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>競品分析日報 · Competitive Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F7F8FA;
+  --bg-soft: #EEF0F4;
+  --card: #FFFFFF;
+  --border: #E6E8EE;
+  --border-soft: #F0F2F6;
+  --text: #0B1020;
+  --text-2: #475569;
+  --text-3: #94A3B8;
+  --primary: #4F46E5;
+  --primary-soft: #EEF2FF;
+  --primary-2: #6366F1;
+  --jp: #DC2626;
+  --jp-soft: #FEE2E2;
+  --us: #2563EB;
+  --us-soft: #DBEAFE;
+  --hktw: #059669;
+  --hktw-soft: #D1FAE5;
+  --pos: #10B981;
+  --pos-soft: #D1FAE5;
+  --neu: #94A3B8;
+  --neu-soft: #F1F5F9;
+  --neg: #EF4444;
+  --neg-soft: #FEE2E2;
+  --warn: #F59E0B;
+  --warn-soft: #FEF3C7;
+  --risk: #7C3AED;
+  --risk-soft: #EDE9FE;
+  --shadow: 0 1px 2px rgba(15,23,42,.04), 0 1px 3px rgba(15,23,42,.06);
+  --shadow-md: 0 4px 16px -2px rgba(15,23,42,.06), 0 2px 6px -2px rgba(15,23,42,.04);
+  --shadow-lg: 0 12px 32px -8px rgba(15,23,42,.08), 0 4px 12px -4px rgba(15,23,42,.04);
+  --r-sm: 8px; --r: 12px; --r-lg: 16px; --r-xl: 20px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { font-family: 'Inter','Noto Sans TC',-apple-system,BlinkMacSystemFont,sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+button { font-family: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+.app-header { background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 50; backdrop-filter: saturate(180%) blur(8px); }
+.app-header-inner { max-width: 1440px; margin: 0 auto; padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark { width: 36px; height: 36px; border-radius: 10px; background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%); display: flex; align-items: center; justify-content: center; color: white; font-weight: 700; font-size: 18px; box-shadow: 0 4px 12px rgba(79,70,229,.25); }
+.brand-text h1 { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.brand-text p { font-size: 12px; color: var(--text-2); margin-top: 2px; }
+.header-actions { display: flex; align-items: center; gap: 12px; }
+.date-pill { display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; background: var(--bg); border: 1px solid var(--border); border-radius: 999px; font-size: 12px; font-weight: 500; color: var(--text-2); }
+.date-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--pos); box-shadow: 0 0 0 3px var(--pos-soft); }
+.month-selector { display: flex; align-items: center; gap: 4px; padding: 4px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; }
+.month-selector button { padding: 4px 10px; font-size: 12px; font-weight: 500; color: var(--text-2); border-radius: 6px; transition: all .15s; }
+.month-selector button:hover { color: var(--text); }
+.month-selector button.active { background: var(--card); color: var(--text); box-shadow: var(--shadow); }
+.section-nav { background: var(--card); border-bottom: 1px solid var(--border); position: sticky; top: 69px; z-index: 40; }
+.section-nav-inner { max-width: 1440px; margin: 0 auto; padding: 0 32px; display: flex; align-items: center; gap: 2px; overflow-x: auto; }
+.section-tab { display: inline-flex; align-items: center; gap: 8px; padding: 12px 16px; font-size: 12px; font-weight: 500; color: var(--text-2); border-bottom: 2px solid transparent; transition: all .15s; white-space: nowrap; }
+.section-tab:hover { color: var(--text); background: var(--bg); }
+.section-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: var(--primary-soft); }
+.section-tab .badge { display: inline-flex; align-items: center; justify-content: center; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; font-size: 10px; font-weight: 600; background: var(--bg); color: var(--text-3); }
+.section-tab.active .badge { background: rgba(79,70,229,.12); color: var(--primary); }
+.section-nav-spacer { flex: 1; }
+.section-nav-meta { font-size: 12px; color: var(--text-3); white-space: nowrap; }
+.region-sub-bar { display: flex; align-items: center; gap: 6px; padding: 12px 0; flex-wrap: wrap; }
+.region-sub-tab { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; font-size: 12px; font-weight: 500; color: var(--text-2); transition: all .15s; }
+.region-sub-tab:hover { background: var(--bg); color: var(--text); }
+.region-sub-tab.active { background: var(--primary-soft); color: var(--primary); }
+.region-sub-tab .flag { font-size: 14px; }
+.region-sub-tab .platform { font-size: 10px; padding: 1px 5px; border-radius: 4px; background: rgba(0,0,0,.05); color: var(--text-3); }
+main { max-width: 1440px; margin: 0 auto; padding: 24px 32px 80px; }
+.section-content { display: none; }
+.section-content.active { display: block; }
+.section-head { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 16px; gap: 16px; }
+.section-title { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 10px; }
+.section-title .num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: var(--primary-soft); color: var(--primary); border-radius: 6px; font-size: 12px; font-weight: 600; }
+.section-subtitle { font-size: 13px; color: var(--text-2); margin-top: 4px; }
+.section-subtitle .update-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 5px; font-size: 11px; font-weight: 500; background: var(--warn-soft); color: var(--warn); margin-left: 6px; }
+.btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; font-size: 12px; font-weight: 500; color: var(--text-2); background: var(--card); border: 1px solid var(--border); border-radius: 8px; transition: all .15s; }
+.btn:hover { background: var(--bg); color: var(--text); }
+.btn-sm { padding: 4px 8px; font-size: 11px; }
+
+/* Hot Topics */
+.hot-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+.hot-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px; }
+.hot-card-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.hot-card-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 8px; }
+.hot-card-region { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 5px; font-size: 10px; font-weight: 600; background: var(--bg); color: var(--text-2); }
+.hot-item { padding: 10px 0; border-bottom: 1px solid var(--border-soft); }
+.hot-item:last-child { border-bottom: none; }
+.hot-item-rank { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border-radius: 5px; font-size: 11px; font-weight: 700; background: var(--bg-soft); color: var(--text-2); }
+.hot-item-rank.top1 { background: var(--warn-soft); color: var(--warn); }
+.hot-item-rank.top2 { background: var(--neu-soft); color: var(--text-2); }
+.hot-item-rank.top3 { background: #FEF3C7; color: #D97706; }
+.hot-item-content { font-size: 13px; font-weight: 500; margin: 4px 0 2px; }
+.hot-item-meta { font-size: 11px; color: var(--text-3); display: flex; align-items: center; gap: 8px; }
+.hot-tag { display: inline-flex; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 500; }
+.hot-tag.opportunity { background: var(--pos-soft); color: var(--pos); }
+.hot-tag.trending { background: var(--neg-soft); color: var(--neg); }
+
+/* Competitor grid */
+.competitor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }
+.game-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 18px; transition: all .2s; position: relative; overflow: hidden; }
+.game-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: var(--card-stripe, var(--primary)); }
+.game-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.game-head { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 14px; cursor: pointer; }
+.game-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 24px; flex-shrink: 0; }
+.game-title-wrap { flex: 1; min-width: 0; }
+.game-title { font-size: 15px; font-weight: 600; letter-spacing: -0.01em; display: flex; align-items: center; gap: 6px; }
+.game-title .expand-hint { font-size: 10px; color: var(--text-3); font-weight: 400; }
+.game-dev { font-size: 12px; color: var(--text-3); margin-top: 2px; }
+.game-launch { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; background: var(--bg); border-radius: 5px; font-size: 11px; color: var(--text-2); font-weight: 500; flex-shrink: 0; }
+.game-info-collapse { overflow: hidden; max-height: 0; transition: max-height 0.3s ease; }
+.game-info-collapse.open { max-height: 500px; }
+.game-meta { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 12px; background: var(--bg-soft); border-radius: var(--r); margin-bottom: 14px; }
+.metric-label { font-size: 11px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; font-weight: 500; }
+.metric-value { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; margin-top: 2px; display: flex; align-items: baseline; gap: 6px; }
+.metric-delta { font-size: 11px; font-weight: 600; padding: 1px 5px; border-radius: 4px; }
+
+/* Report cards */
+.report-grid { display: grid; grid-template-columns: 1fr; gap: 16px; }
+.report-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); overflow: hidden; }
+.report-card-header { display: flex; align-items: center; gap: 12px; padding: 16px 18px; background: var(--bg); border-bottom: 1px solid var(--border-soft); cursor: pointer; }
+.report-card-header:hover { background: var(--bg-soft); }
+.report-card-icon { width: 36px; height: 36px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.report-card-title { flex: 1; }
+.report-card-name { font-size: 15px; font-weight: 600; }
+.report-card-name .platform-tag { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; background: var(--bg); color: var(--text-3); margin-left: 6px; vertical-align: middle; }
+.report-card-meta { font-size: 11px; color: var(--text-3); margin-top: 2px; display: flex; align-items: center; gap: 8px; }
+.report-card-arrow { font-size: 16px; color: var(--text-3); transition: transform .2s; }
+.report-card.open .report-card-arrow { transform: rotate(180deg); }
+.report-card-body { max-height: 0; overflow: hidden; transition: max-height 0.35s ease; }
+.report-card.open .report-card-body { max-height: 3000px; }
+.report-card-inner { padding: 18px; }
+.report-block { margin-bottom: 14px; }
+.report-block:last-child { margin-bottom: 0; }
+.report-label { font-size: 11px; font-weight: 600; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; display: flex; align-items: center; gap: 4px; }
+.report-label .ic { font-size: 13px; }
+.top-quote { font-size: 13px; font-style: italic; color: var(--text-2); padding: 10px 12px; background: var(--bg-soft); border-radius: 8px; border-left: 3px solid var(--primary); }
+.report-content { font-size: 13px; line-height: 1.7; color: var(--text); }
+.report-content strong { font-weight: 600; color: var(--primary); }
+.advice-list { list-style: none; padding: 0; margin: 0; }
+.advice-list li { position: relative; padding: 8px 12px 8px 28px; font-size: 13px; line-height: 1.6; color: var(--text-2); background: var(--primary-soft); border-radius: 8px; margin-bottom: 6px; }
+.advice-list li:last-child { margin-bottom: 0; }
+.advice-list li::before { content: '💡'; position: absolute; left: 8px; top: 8px; font-size: 12px; }
+.advice-list li strong { font-weight: 600; color: var(--primary); }
+.sentiment-bar { display: flex; height: 6px; border-radius: 3px; overflow: hidden; margin: 10px 0; }
+.sentiment-bar .seg { height: 100%; }
+.engagement { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; padding: 12px; background: var(--bg-soft); border-radius: var(--r); margin: 10px 0; }
+.eng-item { text-align: center; }
+.eng-value { font-size: 16px; font-weight: 600; letter-spacing: -0.01em; }
+.eng-label { font-size: 10px; color: var(--text-3); text-transform: uppercase; letter-spacing: 0.03em; margin-top: 2px; }
+
+/* Calendar */
+
+/* 全年概览 - 月份卡片 */
+.calendar-year-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 16px; }
+.calendar-year-card { background: var(--card); border: 1px solid var(--border); border-radius: 8px; padding: 10px; cursor: pointer; transition: all .15s; }
+.calendar-year-card:hover { border-color: var(--primary); box-shadow: var(--shadow); transform: translateY(-1px); }
+.calendar-year-card.active { border-color: var(--primary); background: var(--primary-soft); }
+.calendar-year-month { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+.calendar-year-count { font-size: 10px; color: var(--text-3); background: var(--bg); border-radius: 4px; padding: 1px 5px; }
+.calendar-year-dots { display: flex; gap: 2px; flex-wrap: wrap; margin-top: 2px; }
+.calendar-year-dot { width: 6px; height: 6px; border-radius: 3px; display: inline-block; }
+.calendar-year-dot.high { background: var(--neg); }
+.calendar-year-dot.medium { background: var(--warn); }
+.calendar-year-dot.low { background: var(--pos); }
+.calendar-year-topics { font-size: 10px; color: var(--text-2); margin-top: 3px; line-height: 1.3; max-height: 32px; overflow: hidden; }
+/* 风险预警增强 */
+.risk-category-badge { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; margin-right: 4px; }
+.risk-cat-political { background: rgba(220,38,38,.12); color: #DC2626; }
+.risk-cat-disaster { background: rgba(234,179,8,.12); color: #CA8A04; }
+.risk-cat-competitor { background: rgba(37,99,235,.12); color: #2563EB; }
+.risk-cat-social { background: rgba(147,51,234,.12); color: #9333EA; }
+/* 日历导航功能 */
+.calendar-nav button { cursor: pointer; }
+.calendar-nav-display { font-size: 14px; font-weight: 600; color: var(--text); }
+
+.calendar-card { background: var(--card); border: 1px solid var(--border); border-radius: var(--r-lg); padding: 20px; }
+.calendar-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+.calendar-month { font-size: 16px; font-weight: 600; }
+.calendar-weekdays { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin-bottom: 8px; }
+.calendar-weekdays div { text-align: center; font-size: 11px; font-weight: 600; color: var(--text-3); padding: 6px 0; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
+.calendar-day { aspect-ratio: 1.1; border: 1px solid var(--border-soft); border-radius: 8px; padding: 6px; display: flex; flex-direction: column; gap: 3px; min-height: 76px; background: var(--card); transition: all .15s; position: relative; }
+.calendar-day:hover { border-color: var(--primary); box-shadow: var(--shadow); }
+.calendar-day.empty { border: none; background: transparent; }
+.calendar-day.weekend { background: var(--bg-soft); }
+.calendar-day.today { border-color: var(--primary); background: var(--primary-soft); }
+.calendar-day .dnum { font-size: 14px; font-weight: 700; color: var(--text-2); }
+.calendar-day.today .dnum { color: var(--primary); }
+.calendar-event { font-size: 12px; padding: 4px 6px; border-radius: 5px; font-weight: 600; line-height: 1.5; cursor: help; }
+.calendar-event.high { background: var(--neg-soft); color: var(--neg); }
+.calendar-event.medium { background: var(--warn-soft); color: var(--warn); }
+.calendar-event.low { background: var(--pos-soft); color: var(--pos); }
+
+/* Risk / Next Week */
+.risk-alert { background: var(--risk-soft); border-left: 4px solid var(--risk); border-radius: var(--r); padding: 14px 16px; margin-top: 16px; }
+.risk-alert-title { font-size: 13px; font-weight: 600; color: var(--risk); display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.risk-alert-item { font-size: 12px; color: var(--text-2); padding: 4px 0; display: flex; align-items: flex-start; gap: 8px; }
+.next-week-card { background: var(--bg-soft); border-radius: var(--r-lg); padding: 18px; margin-top: 16px; }
+.next-week-title { font-size: 14px; font-weight: 600; display: flex; align-items: center; gap: 6px; margin-bottom: 12px; }
+.next-week-item { padding: 8px 0; border-bottom: 1px solid var(--border-soft); display: flex; align-items: flex-start; gap: 10px; }
+.next-week-item:last-child { border-bottom: none; }
+
+/* Footer */
+footer { text-align: center; padding: 20px; color: var(--text-3); font-size: 12px; border-top: 1px solid var(--border-soft); margin-top: 40px; }
+
+@media (max-width: 1024px) {
+  .hot-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 768px) {
+  .app-header-inner, .section-nav-inner, main { padding-left: 16px; padding-right: 16px; }
+  .header-actions { flex-wrap: wrap; }
+  .competitor-grid { grid-template-columns: 1fr; }
+  .engagement { grid-template-columns: repeat(2, 1fr); }
+}
+
+.hot-game-icon { width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; background: var(--bg-soft); }
+.hot-game-icon.top1 { background: #FEF3C7; }
+.hot-game-icon.top2 { background: #E5E7EB; }
+.hot-game-icon.top3 { background: #FDE68A; }
+.hot-game-info { flex: 1; min-width: 0; }
+.hot-game-name { font-weight: 600; font-size: 12px; display: flex; align-items: center; gap: 4px; }
+.hot-game-rank { font-size: 10px; color: var(--text-3); }
+.trending-item { padding: 10px 14px; border-bottom: 1px solid var(--border-soft); }
+.trending-item:last-child { border-bottom: none; }
+.trending-hashtag { font-weight: 600; font-size: 13px; color: var(--primary); }
+.trending-desc { font-size: 12px; color: var(--text-2); margin: 2px 0; }
+.trending-vol { font-size: 10px; color: var(--text-3); }
+.opp-item { padding: 10px 14px; border-bottom: 1px solid var(--border-soft); }
+.opp-item:last-child { border-bottom: none; }
+.opp-header { display: flex; align-items: center; gap: 6px; margin-bottom: 4px; }
+.opp-priority { padding: 1px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; }
+.opp-priority.high { background: var(--neg-soft); color: var(--neg); }
+.opp-priority.medium { background: var(--warn-soft); color: var(--warn); }
+.opp-tag { font-size: 11px; font-weight: 600; color: var(--primary); }
+.opp-desc { font-size: 12px; color: var(--text-2); }
+.opp-type { font-size: 10px; color: var(--text-3); display: block; margin-top: 2px; }
+.nw-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border-soft); }
+.nw-item:last-child { border-bottom: none; }
+.nw-badge { flex-shrink: 0; display: inline-block; padding: 2px 6px; border-radius: 4px; font-size: 10px; font-weight: 600; min-width: 44px; text-align: center; }
+.nw-badge.holiday { background: var(--neg-soft); color: var(--neg); }
+.nw-badge.topic { background: var(--primary-soft); color: var(--primary); }
+.nw-badge.content { background: var(--pos-soft); color: var(--pos); }
+.nw-content { flex: 1; font-size: 12px; line-height: 1.5; color: var(--text); }
+.risk-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border-soft); }
+.risk-item:last-child { border-bottom: none; }
+.risk-dot { flex-shrink: 0; width: 8px; height: 8px; border-radius: 50%; margin-top: 5px; }
+.risk-dot.high { background: var(--neg); box-shadow: 0 0 0 3px var(--neg-soft); }
+.risk-dot.medium { background: var(--warn); box-shadow: 0 0 0 3px var(--warn-soft); }
+.risk-dot.low { background: var(--pos); box-shadow: 0 0 0 3px var(--pos-soft); }
+.risk-header { font-weight: 500; }
+.risk-text { font-size: 12px; color: var(--text-2); }
+.calendar-nav { display: flex; gap: 4px; }
+.calendar-legend { display: flex; gap: 16px; padding: 12px 18px; border-top: 1px solid var(--border-soft); flex-wrap: wrap; }
+.calendar-legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-2); }
+.calendar-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+.tag-list { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 8px; }
+.tag-item { padding: 2px 7px; border-radius: 5px; font-size: 11px; font-weight: 500; background: var(--bg); color: var(--text-2); }
+.engagement-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; padding: 8px; background: var(--bg); border-radius: 8px; }
+.post-link { display: inline-flex; align-items: center; gap: 4px; padding: 3px 8px; border-radius: 5px; font-size: 11px; font-weight: 500; color: var(--primary); background: var(--primary-soft); text-decoration: none; margin: 2px 0; }
+.post-link:hover { background: rgba(79,70,229,.15); }
+.grid-2col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+
+/* Compare charts */
+.compare-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.chart-card { background: var(--card); border-radius: 12px; padding: 16px; border: 1px solid var(--border-soft); }
+.chart-title { font-size: 13px; font-weight: 600; margin-bottom: 12px; color: var(--text); }
+.chart-bars { display: flex; flex-direction: column; gap: 8px; }
+.chart-bar-row { display: flex; align-items: center; gap: 0; margin-bottom: 4px; padding: 3px 0; min-height: 32px; }
+.chart-bar { display: flex; align-items: center; gap: 0; width: 100%; }
+.chart-bar-label { font-size: 12px; font-weight: 600; width: 130px; min-width: 130px; text-align: right; color: var(--text); padding-right: 8px; flex-shrink: 0; line-height: 1.3; word-break: break-word; }
+.chart-bar-track-wrapper { flex: 1; display: flex; align-items: center; min-width: 0; }
+.chart-bar-track { flex: 1; height: 24px; background: var(--bg-soft); border-radius: 12px; overflow: hidden; position: relative; }
+.chart-bar-fill { height: 100%; border-radius: 12px; transition: width 0.8s ease; display: flex; align-items: center; }
+.chart-bar-fill.self { background: linear-gradient(90deg, #DC2626, #EF4444); box-shadow: 0 0 0 2px #DC2626; }
+.chart-bar-fill.competitor { background: linear-gradient(90deg, #6366F1, #818CF8); }
+.chart-bar-value { font-size: 11px; font-weight: 600; width: 155px; min-width: 155px; color: var(--text); padding-left: 6px; flex-shrink: 0; line-height: 1.3; }
+.chart-bar-cny { font-size: 10px; font-weight: 400; color: var(--text-3); display: block; }
+.compare-charts { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.chart-card { background: var(--card); border-radius: 12px; padding: 16px; border: 1px solid var(--border-soft); }
+.chart-title { font-size: 14px; font-weight: 700; margin-bottom: 14px; color: var(--text); }
+@media (max-width: 600px) {
+  .compare-charts { grid-template-columns: 1fr; }
+}
+.chart-legend { display: flex; gap: 16px; justify-content: center; margin-top: 12px; font-size: 11px; }
+.chart-legend-item { display: flex; align-items: center; gap: 4px; }
+.chart-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
+.chart-legend-dot.self { background: #8B5CF6; }
+.chart-legend-dot.competitor { background: var(--primary); }
+
+@media (max-width: 600px) {
+  .compare-charts { grid-template-columns: 1fr; }
+}
+
+/* Calendar event hashtags */
+.event-hashtags { display: flex; gap: 2px; flex-wrap: wrap; margin-top: 3px; }
+.event-hashtag { font-size: 10px; padding: 2px 5px; border-radius: 4px; background: rgba(255,255,255,0.4); color: inherit; line-height: 1.6; font-weight: 600; letter-spacing: 0.3px; }
+.calendar-event.high .event-hashtag { background: rgba(239,68,68,0.25); color: #DC2626; }
+.calendar-event.medium .event-hashtag { background: rgba(245,158,11,0.25); color: #D97706; }
+.calendar-event.low .event-hashtag { background: rgba(34,197,94,0.25); color: #16A34A; }
+
+/* 日历编辑模态框 */
+.modal-overlay { display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 9999; align-items: center; justify-content: center; padding: 20px; }
+.modal-overlay.open { display: flex; }
+.modal-box { background: var(--card); border-radius: var(--r-xl); width: 100%; max-width: 640px; max-height: 85vh; overflow-y: auto; box-shadow: var(--shadow-lg); padding: 24px; }
+.modal-title { font-size: 18px; font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.modal-close { margin-left: auto; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 18px; cursor: pointer; background: var(--bg); color: var(--text-2); border: none; }
+.modal-close:hover { background: var(--neg-soft); color: var(--neg); }
+.modal-form { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 20px; padding: 16px; background: var(--bg-soft); border-radius: var(--r); }
+.modal-form .full-width { grid-column: 1 / -1; }
+.modal-form label { font-size: 12px; font-weight: 600; color: var(--text-2); display: block; margin-bottom: 4px; }
+.modal-form input, .modal-form select, .modal-form textarea { width: 100%; padding: 8px 10px; font-size: 13px; border: 1px solid var(--border); border-radius: 6px; background: var(--card); color: var(--text); font-family: inherit; outline: none; }
+.modal-form input:focus, .modal-form select:focus, .modal-form textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px var(--primary-soft); }
+.modal-form textarea { resize: vertical; min-height: 60px; }
+.modal-form .btn-row { display: flex; gap: 8px; justify-content: flex-end; grid-column: 1 / -1; }
+.event-list { list-style: none; padding: 0; margin: 0; }
+.event-list-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 1px solid var(--border-soft); border-radius: 8px; margin-bottom: 6px; transition: all .1s; }
+.event-list-item:hover { border-color: var(--border); }
+.event-list-date { font-size: 12px; font-weight: 600; color: var(--text-2); min-width: 80px; }
+.event-list-name { flex: 1; font-size: 13px; font-weight: 500; }
+.event-list-level { font-size: 10px; padding: 2px 8px; border-radius: 10px; font-weight: 600; }
+.event-list-level.high { background: var(--neg-soft); color: var(--neg); }
+.event-list-level.medium { background: var(--warn-soft); color: var(--warn); }
+.event-list-level.low { background: var(--pos-soft); color: var(--pos); }
+.event-list-actions { display: flex; gap: 4px; }
+.event-list-actions button { width: 28px; height: 28px; border-radius: 6px; font-size: 14px; display: flex; align-items: center; justify-content: center; border: none; cursor: pointer; background: var(--bg); color: var(--text-2); transition: all .1s; }
+.event-list-actions .edit-btn:hover { background: var(--primary-soft); color: var(--primary); }
+.event-list-actions .del-btn:hover { background: var(--neg-soft); color: var(--neg); }
+.calendar-header-right { display: flex; align-items: center; gap: 8px; }
+.calendar-edit-hint { font-size: 11px; color: var(--text-3); margin-left: 8px; }
+
+</style>
+</head>
+<body>
+<div class="app-header">
+  <div class="app-header-inner">
+    <div class="brand">
+      <div class="brand-mark">CI</div>
+      <div class="brand-text">
+        <h1>競品分析日報</h1>
+        <p>Competitive Intelligence · 休閒時光 市場部</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <div class="date-pill"><span class="dot"></span> <span id="todayDate">2026/07/24 (五)</span></div>
+      <div class="month-selector">
+        <button data-month-offset="-1">← 上個月</button>
+        <button data-month-offset="0" class="active">本月</button>
+        <button data-month-offset="1">下個月 →</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<nav class="section-nav">
+  <div class="section-nav-inner">
+    <button class="section-tab active" data-section="hot">
+      🔥 今日熱點 <span class="badge">每日</span>
+    </button>
+    <button class="section-tab" data-section="calendar">
+      📅 營銷日曆 <span class="badge">每日</span>
+    </button>
+    <button class="section-tab" data-section="competitors">
+      🏆 競品調研 <span class="badge">每週</span>
+    </button>
+    <div class="section-nav-spacer"></div>
+    <div class="section-nav-meta" id="sectionMeta">上次更新：<strong>2026/07/24 11:32</strong></div>
+  </div>
+</nav>
+
+<main>
+  <!-- ==================== Section 1: 今日熱點 ==================== -->
+  <div class="section-content active" id="secHot">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title"><span class="num">1</span> 今日熱點</h2>
+        <p class="section-subtitle">各地區競品熱門內容 TOP5 + 今日熱門話題 + 可借勢的熱點推薦 <span class="update-badge">⏱ 每日更新</span></p>
+      </div>
+      <div class="section-actions">
+        <button class="btn" onclick="refreshHotTopics()">🔄 重新整理熱點</button>
+      </div>
+    </div>
+
+    <div class="region-sub-bar">
+      <button class="region-sub-tab active" data-rh="jp"><span class="flag">🇯🇵</span> 日本</button>
+      <button class="region-sub-tab" data-rh="us"><span class="flag">🌎</span> 歐美</button>
+      <button class="region-sub-tab" data-rh="hktw"><span class="flag">🏯</span> 港台</button>
+    </div>
+
+    <div class="hot-grid" id="hotGrid">
+      <div class="hot-card">
+        <div class="hot-card-head">
+          <div class="hot-card-title">🏆 競品熱門內容 TOP5</div>
+          <span class="hot-card-region" id="hotRegion1"><span class="flag">🇯🇵</span> X</span>
+        </div>
+        <div id="hotContentTop5"></div>
+      </div>
+      <div class="hot-card">
+        <div class="hot-card-head">
+          <div class="hot-card-title">💬 近日熱門話題</div>
+          <span class="hot-card-region" id="hotRegion2"><span class="flag">🇯🇵</span> SNS</span>
+        </div>
+        <div id="hotTopics"></div>
+      </div>
+      <div class="hot-card">
+        <div class="hot-card-head">
+          <div class="hot-card-title">🚀 可借勢熱點推薦</div>
+          <span class="hot-card-region" id="hotRegion3"><span class="flag">🇯🇵</span> 建議</span>
+        </div>
+        <div id="hotOpportunities"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== Section 2: 營銷日曆 ==================== -->
+  <div class="section-content" id="secCalendar">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title"><span class="num">2</span> 我的休閒時光營銷日曆</h2>
+        <p class="section-subtitle">各地區營銷日曆 + 下周預測 + 輿情風險預警 <span class="update-badge">⏱ 每日更新</span></p>
+      </div>
+      <div class="section-actions">
+        <button class="btn" onclick="openCalendarEditor()">✏️ 編輯日曆</button>
+        <button class="btn" onclick="syncCalendar()">📤 同步至行事曆</button>
+      </div>
+    </div>
+
+    <div class="region-sub-bar">
+      <button class="region-sub-tab active" data-rc="jp"><span class="flag">🇯🇵</span> 日本</button>
+      <button class="region-sub-tab" data-rc="us"><span class="flag">🌎</span> 歐美</button>
+      <button class="region-sub-tab" data-rc="hktw"><span class="flag">🏯</span> 港台</button>
+    </div>
+
+    <!-- 當月營銷日曆 -->
+    <div class="calendar-card" id="calendarCard"></div>
+
+    <!-- 下周預測 -->
+    <div class="next-week-card" id="nextWeekCard">
+      <div class="next-week-title">📋 下周（07/20 - 07/26）營銷節點預測 & 活動建議</div>
+      <div id="nextWeekContent"></div>
+    </div>
+
+    <!-- 輿情風險預警 -->
+    <div class="risk-alert" id="riskAlert">
+      <div class="risk-alert-title">⚠️ 近期各地區輿情風險點預警</div>
+      <div id="riskContent"></div>
+    </div>
+  </div>
+
+  <!-- ==================== Section 3: 競品調研 ==================== -->
+  <div class="section-content" id="secCompetitors">
+    <div class="section-head">
+      <div>
+        <h2 class="section-title"><span class="num">3</span> 競品調研報告</h2>
+        <p class="section-subtitle">每週社媒調研：官號內容 / 互動數據 / 玩家情緒 / 對我遊的建議 <span class="update-badge">📆 每週一更新</span></p>
+      </div>
+      <div class="section-actions">
+        <button class="btn" onclick="exportCSV()">📊 匯出 CSV</button>
+      </div>
+    </div>
+
+    <div class="region-sub-bar">
+      <button class="region-sub-tab active" data-region="jp"><span class="flag">🇯🇵</span> 日本 <span class="platform">𝕏 X</span></button>
+      <button class="region-sub-tab" data-region="us"><span class="flag">🌎</span> 歐美 <span class="platform">📷 INS</span></button>
+      <button class="region-sub-tab" data-region="hktw"><span class="flag">🏯</span> 港台 <span class="platform">f FB</span></button>
+    </div>
+
+    <!-- 對此圖表 -->
+    <div style="margin-bottom:24px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <h3 style="font-size:15px;font-weight:600">📊 我遊 vs 競品 上週端內數據對比</h3>
+        <span style="font-size:12px;color:var(--text-3)">流水指數 + DAU活躍指數</span>
+      </div>
+      <div class="compare-charts" id="compareCharts">
+        <!-- 端內流水/活躍對比條形圖 -->
+        <div class="chart-card">
+          <div class="chart-title">💰 流水對比 <span style="font-weight:400;font-size:11px;color:var(--text-3)">(上週 07/13-07/19 · 每週)</span></div>
+          <div id="revenueChart" class="chart-bars"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title">📈 活躍用戶對比 <span style="font-weight:400;font-size:11px;color:var(--text-3)">(上週 07/13-07/19)</span></div>
+          <div id="dauChart" class="chart-bars"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="compare-charts" style="margin-bottom:24px">
+      <div class="chart-card">
+        <div class="chart-title">💬 社群互動數對比 <span style="font-weight:400;font-size:11px;color:var(--text-3)">(上週 07/13-07/19 · 讚+留+分)</span></div>
+        <div id="communityChart" class="chart-bars"></div>
+      </div>
+      <div class="chart-card">
+        <!-- 曝光数对比图已移除（数据为估算值） -->
+      </div>
+    </div>
+
+    <!-- 對標競品卡片 -->
+    <div style="margin-bottom:24px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <h3 style="font-size:15px;font-weight:600">📋 對標競品一覽</h3>
+        <span style="font-size:12px;color:var(--text-3)">按遊戲規模排列 · 點擊頭像展開詳細資訊</span>
+      </div>
+      <div class="competitor-grid" id="competitorGrid"></div>
+    </div>
+
+    <!-- 社媒調研報告 -->
+    <div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+        <h3 style="font-size:15px;font-weight:600">📊 本週社媒調研報告</h3>
+        <span style="font-size:12px;color:var(--text-3)">覆蓋 <strong id="competitorCount">0</strong> 款競品 · 點擊展開報告</span>
+      </div>
+      <div class="report-grid" id="reportGrid"></div>
+    </div>
+  
+</main>
+
+<footer>
+  © 2026 休閒時光 市場部 · 競品分析日報自動生成於每週一 09:00 · 資料來源：𝕏 / 📷 IG / f FB 官方社媒帳號
+  <br><span style="color:var(--text-3);font-size:11px">每日更新：今日熱點 · 營銷日曆 · 輿情預警 ｜ 每週更新：競品社媒調研報告</span>
+</footer>
+
+<script>
+// =============================================
+// DATA 層
+// =============================================
+const DATA = {}
+// ============ 日本 🇯🇵 (X) ============
+DATA.jp = {
+  region: "日本",
+  flag: "🇯🇵",
+  platform: "X (Twitter)",
+  platformShort: "X",
+  platformColor: "#1DA1F2",
+  weekRange: "2026/07/13 - 07/19",
+  // 今日熱點
+  hotTopics: {
+    top5: [
+      { rank: 1, game: "どうぶつの森", content: "【お知らせ】 7月3日(金)10:00より、『あつまれ　どうぶつの森』の夏アップデート(Ver.1.3.0)を配信します。 島の海で泳ぐことができるようになりま", engagement: "👍29.0万 💬1.3K", link: "https://x.com/i/status/1276138228374888449", time: "2026-07-24" },
+      { rank: 2, game: "角落小伴伾", content: "🚩すみっコたちのご紹介 しろくま、ねこ、ぺんぎん？、とんかつ、とかげ 他にも、たぴおか、えびふらいのしっぽ、などすみっコのなかまたちが農園に登場します♪  #", engagement: "👍7.4K 💬9", link: "https://x.com/i/status/1307484624268869632", time: "2026-07-24" },
+      { rank: 3, game: "LINE POP", content: "リカちゃんコラボ記念🎀 ＼フォロー＆RTキャンペーン／  ▼参加方法 1⃣ @LINE_POP2_JP をフォロー 2⃣この投稿をRT  抽選300名様に【リ", engagement: "👍5.1K 💬634", link: "https://x.com/i/status/1504653823725514782", time: "2026-07-24" },
+      { rank: 4, game: "ねこレストラン", content: "タマのニャン生哲学ฅ•ω•ฅ #ねこレストラン https://t.co/10zctkZ9aY", engagement: "👍5.7K 💬16", link: "https://x.com/i/status/1704425354662990291", time: "2026-07-24" },
+      { rank: 5, game: "猫とスープ", content: "犬！？…どういうことだにゃ…ワン…？😂🤥 ワン！？ワ…ワンワンワン！！😂  #エイプリルフール 　＃犬とスープ　#猫とスープ https://t.co/k", engagement: "👍791 💬21", link: "https://x.com/i/status/1774632761766314089", time: "2026-07-24" },
+      { rank: 6, game: "ロウロウの郷", content: "ロウロウ まだちょっぴり緊張してブルブル…🫣💦 でも、みんなと仲良くなれたらうれしいな💖 https://t.co/p9iXvlCVwR", engagement: "👍61 💬0", link: "https://x.com/i/status/1969612553018831224", time: "2026-07-24" }
+    ], trending: [
+      { tag: "#夏コーデ", desc: "夏日穿搭話題熱度最高，女性用戶分享夏季服裝搭配", volume: "25.3万" },
+      { tag: "#猫の日", desc: "7/22猫の日臨近，貓咪照片/影片大量分享", volume: "18.7万" },
+      { tag: "#夏休み", desc: "暑假開始，學生族群的休閒娛樂話題增加", volume: "15.2万" },
+      { tag: "#推し活", desc: "追星/應援文化在年輕女性中持續火熱", volume: "12.8万" },
+      { tag: "#女子旅", desc: "女性旅行/出遊計劃話題，夏日旅行靈感分享", volume: "9.6万" },
+      { tag: "#スイーツ", desc: "夏日甜品/冰品話題，IG分享率高", volume: "8.3万" },
+      { tag: "#部屋づくり", desc: "房間佈置/改造話題在年輕女性中人氣高", volume: "7.1万" },
+      { tag: "#花火大会", desc: "夏日花火大會季節，約會/聚會話題", volume: "6.4万" },
+      { tag: "#手帳", desc: "手帳/文具話題在女性中小眾但黏性高", volume: "4.8万" },
+      { tag: "#おうち時間", desc: "宅家時光話題穩定，居家娛樂/遊戲需求持續", volume: "4.2万" }
+    ],opportunities: [
+      { tag: "夏の限定家具", type: "opportunity", desc: "玩家正在尋找夏季主題家具，期間限定提供可行", priority: "高" },
+      { tag: "猫の日コラボ", type: "opportunity", desc: "配合7/22猫の日推出貓咪主題家具/衣裝效果最佳", priority: "高" },
+      { tag: "夏休みログイン", type: "opportunity", desc: "暑假登入獎勵活動實施效果顯著", priority: "中" },
+      { tag: "花火大会テーマ", type: "opportunity", desc: "夏日花火大會主題限定家具可作為8月核心活動", priority: "中" },
+      { tag: "コラボカフェ", type: "opportunity", desc: "與日本現實咖啡廳聯動可帶來線下曝光和SNS話題", priority: "低" }
+    ]
+  },
+  // 營銷日曆
+      calendar: [
+      { date: 20260101, name: "元日 🎍", level: "high", note: "日本最重要的新年 #元日 #お正月 新年主題限定活動" },
+      { date: 20260102, name: "新年假期 🎌", level: "high", note: "新年連假DAU高峰 #お正月 #初詣 新年登入獎勵" },
+      { date: 20260112, name: "成人の日 🎓", level: "medium", note: "祝日 #成人の日 成人式/成長主題 #新生活" },
+      { date: 20260115, name: "冬季獎金季 💰", level: "medium", note: "冬季ボーナス支給 #冬のボーナス 課金意願提升" },
+      { date: 20260120, name: "大寒 ❄️", level: "low", note: "節氣 #大寒 冬季居家主題 #暖房 #冬支度" },
+      { date: 20260202, name: "節分 👹", level: "medium", note: "季節イベント #節分 #豆まき #恵方巻" },
+      { date: 20260211, name: "建国記念の日 🇯🇵", level: "low", note: "祝日 #建国記念の日 慎發政治內容" },
+      { date: 20260214, name: "バレンタイン 💝", level: "high", note: "重要SNS日 #バレンタイン #チョコ 情侶/閨蜜主題" },
+      { date: 20260222, name: "猫の日 🐱", level: "high", note: "重要SNS日 #猫の日 貓咪主題活動" },
+      { date: 20260303, name: "ひな祭り 🎎", level: "medium", note: "女の子の節句 #ひな祭り #桃の節句" },
+      { date: 20260314, name: "ホワイトデー 🤍", level: "medium", note: "お返しの日 #ホワイトデー" },
+      { date: 20260320, name: "春分の日 🌸", level: "medium", note: "祝日 #春分の日 #春彼岸" },
+      { date: 20260401, name: "エイプリルフール 🃏", level: "medium", note: "#エイプリルフール 愚人節" },
+      { date: 20260405, name: "花見シーズン 🌸", level: "high", note: "桜滿開 #花見 #お花見 #桜 限定櫻花主題" },
+      { date: 20260429, name: "昭和の日 🌿", level: "low", note: "祝日 #昭和の日 GW準備" },
+      { date: 20260430, name: "ゴールデンウィーク準備 🎌", level: "high", note: "大型連休準備 #GW #ゴールデンウィーク" },
+      { date: 20260503, name: "憲法記念日 📜", level: "low", note: "祝日GW中 #憲法記念日 政治敏感" },
+      { date: 20260504, name: "みどりの日 🌿", level: "medium", note: "祝日 #みどりの日 自然/綠色主題" },
+      { date: 20260505, name: "こどもの日 🎏", level: "high", note: "祝日 #こどもの日 #端午の節句" },
+      { date: 20260510, name: "母の日 💐", level: "medium", note: "#母の日" },
+      { date: 20260601, name: "衣替え 👘", level: "low", note: "夏季服裝更新 #衣替え" },
+      { date: 20260615, name: "梅雨入り ☔", level: "medium", note: "梅雨 #梅雨 #雨の日 室內主題" },
+      { date: 20260621, name: "夏至 ☀️", level: "low", note: "#夏至 最長日" },
+      { date: 20260707, name: "七夕 🎋", level: "high", note: "重要SNS日 #七夕 #短冊 #天の川" },
+      { date: 20260715, name: "海の日 🏖️", level: "high", note: "祝日 #海の日 #夏フェス" },
+      { date: 20260718, name: "暑假開始 🎒", level: "high", note: "#夏休み 學生活躍" },
+      { date: 20260722, name: "猫の日 🐱", level: "high", note: "#猫の日" },
+      { date: 20260801, name: "夏祭季 🎆", level: "high", note: "#夏祭り #花火 花火大会主題" },
+      { date: 20260807, name: "立秋 🍃", level: "low", note: "#立秋" },
+      { date: 20260813, name: "お盆 🏠", level: "high", note: "#お盆休み #帰省 長假" },
+      { date: 20260815, name: "お盆休み 🏠", level: "high", note: "盂蘭盆節 #お盆" },
+      { date: 20260901, name: "防災の日 🚨", level: "medium", note: "#防災の日 安全主題" },
+      { date: 20260915, name: "敬老の日 👴", level: "medium", note: "#敬老の日" },
+      { date: 20260922, name: "秋分の日 🍁", level: "low", note: "#秋分の日" },
+      { date: 20261001, name: "衣替え(秋) 🍂", level: "medium", note: "秋色主題 #衣替え" },
+      { date: 20261010, name: "スポーツの日 🏃", level: "low", note: "#スポーツの日" },
+      { date: 20261031, name: "ハロウィン 🎃", level: "high", note: "重要SNS日 #ハロウィン #仮装" },
+      { date: 20261103, name: "文化の日 🎨", level: "medium", note: "#文化の日 和風主題" },
+      { date: 20261111, name: "ポッキーの日 🍫", level: "medium", note: "#ポッキーの日" },
+      { date: 20261123, name: "勤労感謝の日 🙏", level: "medium", note: "#勤労感謝の日" },
+      { date: 20261207, name: "大雪 ⛄", level: "low", note: "#大雪" },
+      { date: 20261220, name: "クリスマス準備 🎄", level: "high", note: "#クリスマス #Xmas" },
+      { date: 20261224, name: "クリスマスイブ 🎅", level: "high", note: "#クリスマスイブ #メリクリ" },
+      { date: 20261225, name: "クリスマス 🎄", level: "high", note: "#クリスマス #Xmas" },
+      { date: 20261231, name: "大晦日 🎆", level: "high", note: "#大晦日 #年越し 跨年" },
+      
+      { date: 20260223, name: "天皇誕生日 👑", level: "high", note: "#天皇誕生日 祝日" },
+      { date: 20260811, name: "山の日 🏔️", level: "medium", note: "#山の日 #自然 登山/户外主題" },
+],
+  nextWeek: [
+    { type: "holiday", label: "🎌 祝日", content: "7/20 海之日 - 推出夏日風格家具/背景，配合海洋主題活動" },
+    { type: "topic", label: "📈 話題", content: "猫の日(7/22) SNSキャンペーン準備 - 貓咪主題限定商品從一週前開始預告" },
+    { type: "content", label: "💡 內容建議", content: "準備暑假限定「海邊小屋」主題家具套裝" }
+  ],
+  // 風險預警
+      risks: [
+      { level: "high", content: "【舆情風險】8/15 終戦記念日前後 - SNS政治性貼文大量增加，戰爭/軍事要素可能引發批評。推薦發布和平治癒系內容" },
+      { level: "medium", content: "【自然災害】7-9月颱風季 - 颱風頻發期。推出「室內舒適」「雨季搭配」主題，重大災害時發布安全提醒" },
+      { level: "low", content: "【自然災害】6月梅雨 - 豪雨/洪水報導增加，發布室內活動創意內容" },
+      { level: "low", content: "【自然災害】1-2月寒冬/大雪 - 大雪地區可能停電/交通中斷，發布暖房/冬支度內容" },
+      { level: "medium", content: "【竞品风险】ロウロウの郷大型更新(預測Q3) - 其社媒活動可能吸引目標用戶，Q3需加強內容密度" },
+      { level: "medium", content: "【舆情風險】4月末~5月GW - 政治歷史相關節目增加，避免可能被解讀為政治立場的內容" },
+      { level: "medium", content: "【舆情風險】9月敬老の日前後 - 高齡相關社會議題討論增加，避免年齡歧視內容" },
+      ],
+  // 競品資料 (既有資料)
+  competitors: [
+    {
+      id: "linepop",
+      name: "LINE POP",
+      developer: "LINE Corporation",
+      icon: "💬", iconBg: "linear-gradient(135deg,#06C755 0%,#7ED321 100%)",
+      cardStripe: "#06C755",
+      launchDate: "2014-04", age: "12 年",
+      market: {
+        mau: { value: "120 萬", delta: "-1.6%", trend: "down" },
+        revenue: { value: "¥7,500 萬/週", delta: "-0.8%", trend: "down" }
+      ,
+        followers: { value: "120萬" }
+      },
+      gameplay: "三消 + LINE 社交 + 限定貼圖",
+      tags: ["LINE", "三消", "社交"],
+      info: { platform: "iOS/Android", publisher: "LINE", scale: "業界最大級" },
+      weekly: {
+        posts: 8,
+        mainTopic: "夏祭活動第二彈 + 限定LINE貼圖 + LINE連動キャンペーン",
+        engagement: { likes: 2340, comments: 210, shares: 5111, saves: 32},
+        sentiment: { positive: 72, neutral: 17, negative: 11 },
+        exposure: '19.2萬/週',
+        topQuote: "Xで#LINEPOP 夏祭りがトレンド入り！貼圖抽獎引發大量轉發",
+        summary: "LINE POP本週夏祭活動期間，#LINEPOP在X平台進入趨勢排名47位，LINE貼圖連動抽獎活動引發大量轉發。官方社媒主要發布夏祭限定活動預告和貼圖抽獎資訊，老用戶回歸效果顯著，貼圖連動是LINE系的獨特社群擴散優勢。",
+        advice: [
+          "<strong>季節限定社媒活動</strong>：夏季祭典+貼圖抽獎的組合在X平台病毒傳播效果顯著，建議我遊在港台FB/IG設計季節性活動搭配限定虛寶碼，通過限定內容激勵分享",
+          "<strong>SNS連動獎勵</strong>：LINE POP的貼圖抽獎模式本質是SNS連動獎勵，建議我遊在FB/LINE設計「分享活動得限定家具/配件」機制，利用獎勵驅動社媒擴散",
+          "<strong>老客喚回策略</strong>：其季節活動對老用戶回歸效果顯著，建議我遊在暑期/節日檔期針對沉默用戶定向推限定內容預告，配合獎勵促回歸"
+        ]
+      }
+    },
+    {
+      id: "dobutsu",
+      name: "どうぶつの森 (Animal Crossing)",
+      developer: "Nintendo",
+      icon: "🍃", iconBg: "linear-gradient(135deg,#22C55E 0%,#86EFAC 100%)",
+      cardStripe: "#22C55E",
+      launchDate: "2017-10 (Pocket Camp)", age: "8 年",
+      market: {
+        mau: { value: "350 萬", delta: "+3.2%", trend: "up" },
+        revenue: { value: "¥2.0 億/週", delta: "+5.6%", trend: "up" }
+      ,
+        followers: { value: "650萬" }
+      },
+      gameplay: "キャンプ経営 + どうぶつ交流 + 家具収集 + 季節イベント",
+      tags: ["任天堂", "經營", "長線"],
+      info: { platform: "iOS/Android + Switch", publisher: "Nintendo", scale: "グローバル級" },
+      weekly: {
+        posts: 6,
+        mainTopic: "七夕集會キャンペーン + 限定道具 + 附語音角色",
+        engagement: { likes: 200801, comments: 822, shares: 81211, saves: 8084},
+        sentiment: { positive: 91, neutral: 6, negative: 3 },
+        exposure: '28.0萬/週',
+        topQuote: "Xで#どうぶつの森 七夕トレンド！公式RTで二次創作が3倍に",
+        summary: "動森本週七夕活動極其成功，#どうぶつの森 話題在X平台進入趨勢排行。任天堂官方社媒轉發玩家二創內容，帶動粉絲二次創作量達平時3.2倍。語音角色素材的投入大幅提升玩家滿意度，官方轉發UGC的策略有效激發社群創作熱情。",
+        advice: [
+          "<strong>季節性「儀式感」社群活動</strong>：動森的季節活動（七夕/聖誕/新年）成功為女性用戶創造生活中的「儀式感」，建議我遊在暑期設計「每日登入打卡→累積限定內容→最終解鎖特別獎勵」的儀式感鏈路",
+          "<strong>官方轉發UGC策略</strong>：任天堂官方帳號主動轉發玩家創作是低成本高回報的社群運營方式，建議我遊社媒每週精選3-5個優質玩家創作轉發，激勵更多UGC產出",
+          "<strong>規避策略</strong>：7/15-20動森七夕活動期間，建議我遊避免發布類似情感訴求內容，轉為差異化話題（如「清涼夏日」、「家居改造」）"
+        ]
+      }
+    },
+    {
+      id: "rowrow",
+      name: "ロウロウの郷",
+      developer: "海鳥ゲームズ",
+      icon: "🏘️", iconBg: "linear-gradient(135deg,#F472B6 0%,#FBCFE8 100%)",
+      cardStripe: "#F472B6",
+      launchDate: "2026-04", age: "3 ヶ月",
+      market: {
+        mau: { value: "85 萬", delta: "+28.4%", trend: "up" },
+        revenue: { value: "¥4,200 萬/週", delta: "+35.2%", trend: "up" }
+      ,
+        followers: { value: "32萬" }
+      },
+      gameplay: "箱庭パズル + 秘密の物語 + キャラ育成 + 部屋裝飾",
+      tags: ["箱庭", "新作", "急成長"],
+      info: { platform: "iOS/Android", publisher: "海鳥ゲームズ", scale: "急成長中" },
+      weekly: {
+        posts: 12,
+        mainTopic: "新角色「影守」PV公開 + 首次大型版本更新預告",
+        engagement: { likes: 43, comments: 1, shares: 2, saves: 0},
+        sentiment: { positive: 88, neutral: 8, negative: 4 },
+        exposure: '0.85萬/週',
+        topQuote: "Xで#ロウロウの郷 累計800万再生！新キャラPVが話題沸騰",
+        summary: "ロウロウの郷上線3個月迎來首次大型更新，新角色PV在X平台24小時播放量突破50萬。官方社媒在更新前採用懸念式預告（角色剪影→背景故事→完整PV）引發社群猜測討論，相關話題累計閱讀量達800萬，是近期日本女性向手遊社媒討論熱度最高的內容。",
+        advice: [
+          "<strong>直接競品動向監控</strong>：ロウロウの郷是目前與我遊用戶畫像最接近的日本新遊，需密切監控其社媒策略和活動節奏，特別是其在港台的擴張動向",
+          "<strong>懸念式預告節奏</strong>：其新角色發布（剪影→故事→PV三步預告）在X平台引發大量猜測討論，建議我遊大型版本更新採用類似節奏，每2-3天發布一則懸念線索貼文",
+          "<strong>差異化社媒定位</strong>：ロウロウの郷主打「箱庭+神秘」調性，建議我遊社媒內容強調「小屋裝修的溫馨感」和「人物穿搭的個性化」，形成差異化情感共鳴"
+        ]
+      }
+    },
+    {
+      id: "nekoSoup",
+      name: "猫とスープ",
+      developer: "HIDEA",
+      icon: "🐱", iconBg: "linear-gradient(135deg,#22C55E 0%,#BBF7D0 100%)",
+      cardStripe: "#22C55E",
+      launchDate: "2021-07", age: "5 年",
+      market: {
+        mau: { value: "95 萬", delta: "+5.2%", trend: "up" },
+        revenue: { value: "¥2,800 萬/週", delta: "+8.6%", trend: "up" }
+      ,
+        followers: { value: "85萬" }
+      },
+      gameplay: "貓咪收集 + 料理製作 + 裝飾 + 放置",
+      tags: ["貓咪", "放置", "治癒"],
+      info: { platform: "iOS/Android", publisher: "HIDEA", scale: "日本女性向けトップ" },
+      weekly: {
+        posts: 7,
+        mainTopic: "夏限定Skin「海邊的貓」系列 + 夏日祭活動",
+        engagement: { likes: 592, comments: 6, shares: 50, saves: 6},
+        sentiment: { positive: 90, neutral: 7, negative: 3 },
+        exposure: '0.61萬/週',
+        topQuote: "Xで#猫とスープ 夏スキンが可愛いと話題、UGC投稿60%増",
+        summary: "本週貓咪和湯推出夏季限定貓咪皮膚系列，在X平台以#猫とスープ 標籤引發大量玩家曬圖。官方帳號轉發用戶創意截圖，UGC討論量較上週增長60%，活動期間DAU增長12%。限定皮膚發布採用預告→上線→UGC二輪傳播的節奏，玩家分享率極高。",
+        advice: [
+          "<strong>限定內容社媒節奏</strong>：貓咪和湯的限定皮膚發布模式（預告→上線→UGC曬圖→二輪傳播）值得參考，建議我遊限定內容採用提前3天預告+上線當日KOL同步+上線後3天UGC打卡活動的節奏",
+          "<strong>UGC曬圖活動設計</strong>：其#猫とスープ 標籤的玩家自發分享率極高，建議我遊在X設計以#我的小屋夏日主題 曬圖活動，評選最佳作品贈送限定道具",
+          "<strong>治癒系社媒調性</strong>：貓咪和湯的社媒以溫馨治癒風格為主（料理照片、貓咪日常），這類軟性情緒內容的互動率和分享率高於硬推廣，建議我遊社媒多發布玩家小屋/穿搭的溫馨日常"
+        ]
+      }
+    },
+    {
+      id: "nekoRestaurant",
+      name: "ねこレストラン",
+      developer: "HIDEA",
+      icon: "🍽️", iconBg: "linear-gradient(135deg,#10B981 0%,#A7F3D0 100%)",
+      cardStripe: "#10B981",
+      launchDate: "2022-09", age: "4 年",
+      market: {
+        mau: { value: "65 萬", delta: "+3.8%", trend: "up" },
+        revenue: { value: "¥1,900 萬/週", delta: "+4.2%", trend: "up" }
+      ,
+        followers: { value: "28萬" }
+      },
+      gameplay: "貓咪餐廳經營 + 料理收集 + 裝飾 + 輕度社交",
+      tags: ["貓咪", "經營", "可愛"],
+      info: { platform: "iOS/Android", publisher: "HIDEA", scale: "日本女性向け安定" },
+      weekly: {
+        posts: 4,
+        mainTopic: "新菜單「かき氷」追加 + 夏限定活動",
+        engagement: { likes: 2799, comments: 29, shares: 959, saves: 24},
+        sentiment: { positive: 85, neutral: 11, negative: 4 },
+        exposure: '22.3萬/週',
+        topQuote: "Xで夏メニューかき氷が好評、猫キャラ動画が拡散",
+        summary: "本週貓咪餐廳推出夏季限定菜單「刨冰」系列，在X平台發布新菜單預告和貓咪角色互動影片。限定菜單配合遊戲內夏日裝飾更新，玩家蒐集熱情高。官方與貓咪和湯定期進行品牌聯動互相引流，跨遊戲社媒互推效果顯著。",
+        advice: [
+          "<strong>跨遊戲社媒聯動</strong>：ねこレストラン與猫とスープ的內部聯動互推效果顯著，建議我遊可與非競品休閒遊戲進行社媒聯動（互換社媒貼文、聯合活動、互相曝光）",
+          "<strong>懸念式預告節奏</strong>：其新菜單預告採用「剪影→食材→完成品」三步預告法，引發玩家猜測討論，建議我遊新版本採用類似懸念式預告，每2天發布一則線索貼文",
+          "<strong>活動期社媒頻率</strong>：限定活動期間社媒更新頻率從日常1條/日提高至2-3條/日，配合活動進度發布不同類型內容（預告→活動中→UGC展示→回顧）"
+        ]
+      }
+    }
+  ],
+  benchmark: {
+    myGame: {
+      name: "YOYO町の癒し生活",
+      developer: "自研",
+      icon: "🏡", iconBg: "linear-gradient(135deg,#8B5CF6 0%,#C4B5FD 100%)",
+      cardStripe: "#8B5CF6",
+      launchDate: "未上線", age: "-",
+      market: {
+        mau: { value: "-", delta: "-", trend: "up" },
+        revenue: { value: "-", delta: "-", trend: "up" }
+      },
+      tags: ["自研", "治癒", "小屋裝修"],
+      community: { followers: "-", weekly_engagement: "-", top_post: "尚未上線" }
+    },
+    lastWeek: {
+      revenueIndex: 0,
+      dauIndex: 0,
+      communityEngagement: 0
+    }
+  }
+};
+// ============ 歐美 🌎 (INS) ============
+DATA.us = {
+  region: "歐美",
+  flag: "🌎",
+  platform: "Instagram",
+  platformShort: "INS",
+  platformColor: "#E4405F",
+  weekRange: "2026/07/13 - 07/19",
+  hotTopics: {
+    top5: [
+      { rank: 1, game: "Heartopia", content: "Gilded Acorn Exhibition | Heartbond Vow \\u2014 Details Preview \\n\\nFalling fo", engagement: "👍1.0万 💬141", link: "https://www.instagram.com/p/Da-CIfMjEhc/", time: "2026-07-19" },
+      { rank: 2, game: "The Sims Mobile", content: "Hey Simmers,\\n\\nWe have some sad news today. After seven years and more than 5", engagement: "👍2.2K 💬521", link: "https://www.instagram.com/p/DQBFN8DjdTL/", time: "2025-10-20" },
+      { rank: 3, game: "Disney Magic", content: "Get ready for an exciting lineup of limited-time events in Update 108: Cars, Mon", engagement: "👍564 💬5", link: "https://www.instagram.com/p/DaiYkTKF-FM/", time: "2026-07-08" },
+      { rank: 4, game: "Time Princess", content: "Time Princess x Mauritshuis, The Hague is Returning Soon!\\n\\nRevisit the quiet", engagement: "👍427 💬94", link: "https://www.instagram.com/p/DTZKDeWFNXm/", time: "2026-01-12" }
+    ], trending: [
+      { tag: "#SummerOOTD", desc: "夏日穿搭話題在IG持續火爆，年輕女性分享夏季時尚搭配", volume: "32.5万" },
+      { tag: "#CozyVibes", desc: "舒適療癒系內容在年輕女性中受歡迎，居家美學話題", volume: "24.8万" },
+      { tag: "#RoomTour", desc: "房間改造/佈置內容在TikTok和IG上病毒式傳播", volume: "18.3万" },
+      { tag: "#SelfCareSunday", desc: "自我關懷/放鬆主題在女性用戶中熱度穩定", volume: "15.7万" },
+      { tag: "#DogDay", desc: "8/26國際狗狗日將至，寵物可愛內容互動率高", volume: "12.4万" },
+      { tag: "#BeachDay", desc: "夏日海灘出遊話題，泳裝/度假穿搭分享增多", volume: "10.8万" },
+      { tag: "#ThriftFlip", desc: "舊物改造/DIY內容在創意女性群體中日趨流行", volume: "8.6万" },
+      { tag: "#BookTok", desc: "夏日閱讀書單分享在年輕女性中熱度上升", volume: "7.2万" },
+      { tag: "#BackToSchool", desc: "8月底開學季即將到來，返校購物/穿搭話題升溫", volume: "5.9万" },
+      { tag: "#WeekendVibes", desc: "週末宅家/出遊分享，休閒遊戲/娛樂需求內容", volume: "4.5万" }
+    ],opportunities: [
+      { tag: "Cozy Summer", type: "opportunity", desc: "Cozy summer aesthetic trending - perfect for cute room decor posts", priority: "高" },
+      { tag: "國際狗狗日", type: "opportunity", desc: "8/26 International Dog Day - pet themed furniture/activities, #DogDay tag momentum", priority: "中" },
+      { tag: "Back to School", type: "opportunity", desc: "Aug/Sep BTS season - student dorm room design theme, #BackToSchool tag", priority: "中" },
+      { tag: "IG Reels Summer", type: "opportunity", desc: "IG Reels summer content challenge - room makeover time-lapse videos", priority: "中" },
+      { tag: "Summer Reading", type: "opportunity", desc: "Summer reading/cozy book nook theme - cross with #CozyGaming", priority: "低" }
+    ]
+  },
+          calendar: [
+      { date: 20260101, name: "New Year's Day 🎉", level: "high", note: "#NewYear #NewBeginnings" },
+      { date: 20260115, name: "MLK Day ✊", level: "low", note: "#MLKDay 社會議題" },
+      { date: 20260120, name: "Inauguration Day 🏛️", level: "medium", note: "#Inauguration 政治敏感" },
+      { date: 20260201, name: "Black History Month 📚", level: "medium", note: "#BlackHistoryMonth" },
+      { date: 20260209, name: "Super Bowl 🏈", level: "high", note: "#SuperBowl #SB60 体育/派對主題" },
+      { date: 20260214, name: "Valentine's Day 💕", level: "high", note: "#ValentinesDay #Love" },
+      { date: 20260217, name: "Presidents' Day 🇺🇸", level: "medium", note: "#PresidentsDay 長週末" },
+      { date: 20260308, name: "Women's Day 👩", level: "medium", note: "#IWD #InternationalWomensDay" },
+      { date: 20260317, name: "St. Patrick's Day ☘️", level: "high", note: "#StPatricksDay #Green" },
+      { date: 20260320, name: "Spring Equinox 🌸", level: "low", note: "#SpringEquinox #FirstDayOfSpring" },
+      { date: 20260325, name: "Spring Break 🌴", level: "high", note: "#SpringBreak 春假" },
+      { date: 20260401, name: "April Fools' 🃏", level: "medium", note: "#AprilFools" },
+      { date: 20260408, name: "Easter 🐣", level: "high", note: "#Easter #EasterSunday" },
+      { date: 20260422, name: "Earth Day 🌍", level: "medium", note: "#EarthDay" },
+      { date: 20260504, name: "Star Wars Day 🚀", level: "medium", note: "#StarWarsDay #MayThe4th" },
+      { date: 20260510, name: "Mother's Day 🌷", level: "high", note: "#MothersDay" },
+      { date: 20260525, name: "Memorial Day 🇺🇸", level: "medium", note: "#MemorialDay 長週末" },
+      { date: 20260601, name: "Pride Month 🏳️‍🌈", level: "medium", note: "#PrideMonth 多元共融" },
+      { date: 20260614, name: "Flag Day 🇺🇸", level: "low", note: "#FlagDay" },
+      { date: 20260615, name: "Father's Day 👔", level: "high", note: "#FathersDay" },
+      { date: 20260621, name: "Summer Solstice ☀️", level: "medium", note: "#SummerSolstice" },
+      { date: 20260704, name: "Independence Day 🎆", level: "high", note: "#July4th #IndependenceDay" },
+      { date: 20260725, name: "International Friendship Day 🤝", level: "medium", note: "#FriendshipDay" },
+      { date: 20260801, name: "Summer Games 🏅", level: "medium", note: "#Summer #SummerGames" },
+      { date: 20260807, name: "Back to School 🎒", level: "high", note: "#BackToSchool" },
+      { date: 20260826, name: "National Dog Day 🐕", level: "medium", note: "#NationalDogDay" },
+      { date: 20260901, name: "Labor Day 👷", level: "medium", note: "#LaborDay 長週末" },
+      { date: 20260911, name: "9/11 Remembrance 🕊️", level: "high", note: "敏感日 #NeverForget 暫停娛樂行銷" },
+      { date: 20261001, name: "Fall Season 🍁", level: "high", note: "#Fall #AutumnVibes" },
+      { date: 20261012, name: "Indigenous Peoples' Day 🪶", level: "low", note: "聯邦假日" },
+      { date: 20261025, name: "Halloween Week 👻", level: "high", note: "#Halloween #SpookySeason" },
+      { date: 20261031, name: "Halloween 🎃", level: "high", note: "#Halloween" },
+      { date: 20261105, name: "Election Day 🗳️", level: "high", note: "#ElectionDay 極敏感政治日" },
+      { date: 20261111, name: "Veterans Day 🎖️", level: "medium", note: "#VeteransDay" },
+      { date: 20261122, name: "Thanksgiving Week 🦃", level: "high", note: "#Thanksgiving" },
+      { date: 20261127, name: "Thanksgiving 🦃", level: "high", note: "#Thanksgiving" },
+      { date: 20261128, name: "Black Friday 🛍️", level: "high", note: "#BlackFriday" },
+      { date: 20261130, name: "Cyber Monday 💻", level: "high", note: "#CyberMonday" },
+      { date: 20261201, name: "Giving Tuesday 💝", level: "medium", note: "#GivingTuesday" },
+      { date: 20261210, name: "Holiday Season 🎄", level: "high", note: "#HolidaySeason #Christmas" },
+      { date: 20261215, name: "Christmas Prep 🎅", level: "high", note: "#ChristmasPrep" },
+      { date: 20261224, name: "Christmas Eve 🎄", level: "high", note: "#ChristmasEve" },
+      { date: 20261225, name: "Christmas 🎅", level: "high", note: "#Christmas #MerryChristmas" },
+      { date: 20261231, name: "New Year's Eve 🎆", level: "high", note: "#NYE #NewYearsEve" },
+      
+      { date: 20260202, name: "Groundhog Day 🌤️", level: "low", note: "#GroundhogDay 有趣輕鬆話題" },
+      { date: 20260505, name: "Cinco de Mayo 🌮", level: "medium", note: "#CincoDeMayo 多元文化" },
+      { date: 20260619, name: "Juneteenth ✊🏿", level: "medium", note: "#Juneteenth #FreedomDay 多元共融" },
+],
+  nextWeek: [
+    { type: "holiday", label: "🎌 節日", content: "7/25 International Friendship Day - 推出好友小屋拜訪/送禮活動 #FriendshipDay" },
+    { type: "topic", label: "📈 話題", content: "#SummerVibes 話題持續高熱度，IG夏日內容更新頻率建議提升至每日2條" },
+    { type: "content", label: "💡 內容建議", content: "準備返校季(8月)學生宿舍主題家具套裝預告" },
+    { type: "content", label: "💡 內容建議", content: "狗狗日(8/26)提前預熱，設計寵物主題家具草稿開始社媒曝光" }
+  ],
+          risks: [
+      { level: "high", content: "【政治敏感】11月大選 - 政治討論極度高漲，FB/IG演算法偏向政治內容。遊戲社媒需嚴格避免政治表述" },
+      { level: "high", content: "【敏感話題】9/11週年紀念 - 全國哀悼日，當天暫停娛樂型行銷，發布致敬內容" },
+      { level: "medium", content: "【自然災害】7-9月颶風季 - 墨西哥灣/東海岸颶風影響玩家。發布安全提醒，重大災害暫停娛樂行銷" },
+      { level: "low", content: "【自然災害】1-2月暴風雪 - 中西部/東北部極寒，推出宅家舒適主題" },
+      { level: "medium", content: "【競品風險】Project Makeover夏季IG Reels - Summer Glow-Up Challenge 獲得200萬+播放" },
+      { level: "medium", content: "【競品風險】Heartopia新版本 - 可能搶奪女性用戶注意力，建議提前規劃差異化內容" },
+      { level: "low", content: "【自然災害】6-10月野火季 - 加州/西部野火，發布居家避暑暖心內容" },
+      ],
+  competitors: [
+    {
+      id: "projectMakeover",
+      name: "Project Makeover",
+      developer: "Magic Tavern",
+      icon: "💅", iconBg: "linear-gradient(135deg,#EC4899 0%,#F9A8D4 100%)",
+      cardStripe: "#EC4899",
+      launchDate: "2019-11", age: "6 年",
+      market: {
+        mau: { value: "580 萬", delta: "+4.8%", trend: "up" },
+        revenue: { value: "$3.7M/週", delta: "+7.2%", trend: "up" }
+      ,
+        followers: { value: "280萬" }
+      },
+      gameplay: "三消 + 換裝 + 房屋改造 + 劇情",
+      tags: ["三消", "換裝", "改造"],
+      info: { platform: "iOS/Android", publisher: "Magic Tavern", scale: "グローバルトップ" },
+      weekly: {
+        posts: 10,
+        mainTopic: "Summer Glow-Up Challenge + new makeover sets + IG Reels",
+        engagement: { likes: 186000, comments: 12400, shares: 8200, saves: 15400 },
+        sentiment: { positive: 84, neutral: 10, negative: 6 },
+        topQuote: "Summer Glow-Up Challenge IG Reels 7天播放破200萬",
+        summary: "Summer Glow-Up Challenge 是IG上最成功的營銷活動之一。<strong>IG Reels 播放量 7 天破 200 萬</strong>。換裝 + 房屋改造的組合正是高度相關的競品模型。",
+        advice: [
+          "<strong>IG Reels短影音社媒策略</strong>：Project Makeover的Summer Glow-Up Challenge IG Reels 7天播放破200萬，是近期最成功的社媒活動。建議我遊在IG設計『Before/After小屋改造短影音』挑戰，搭配專屬標籤和獎勵",
+          "<strong>Glow-Up Challenge UGC模式</strong>：其核心成功因素是『改造前vs改造後』的視覺衝擊內容天生適合短影音傳播。建議我遊設計「穿搭改造挑戰」，用戶分享前/後對比，提供遊戲內獎勵激勵參與",
+          "<strong>IG Reels內容排期</strong>：PM在活動期間每日發布2-3條Reels，配合活動進度（預告→教學→展示→UGC精選）。建議我遊在大型活動期間提升社媒發布頻率，形成內容聲量"
+        ]
+      }
+    },
+    {
+      id: "simsMobile",
+      name: "The Sims Mobile",
+      developer: "EA",
+      icon: "💎", iconBg: "linear-gradient(135deg,#3B82F6 0%,#93C5FD 100%)",
+      cardStripe: "#3B82F6",
+      launchDate: "2018-03", age: "8 年",
+      market: {
+        mau: { value: "420 萬", delta: "-2.1%", trend: "down" },
+        revenue: { value: "$2.9M/週", delta: "+1.5%", trend: "up" }
+      ,
+        followers: { value: "520萬" }
+      },
+      gameplay: "人生模擬 + 家裝 + 換裝 + 社交 + 職業",
+      tags: ["EA", "人生模擬", "家裝"],
+      info: { platform: "iOS/Android", publisher: "EA", scale: "グローバルクラシック" },
+      weekly: {
+        posts: 6,
+        mainTopic: "Summer Getaway Kit + pool party + new career path",
+        engagement: { likes: 1292, comments: 219, shares: 0, saves: 0},
+        sentiment: { positive: 76, neutral: 14, negative: 10 },
+        topQuote: "Summer Getaway Kit 開箱影片+Reddit截圖大賽800帖",
+        summary: "Sims本週推出Summer Getaway Kit主題內容，在IG和Reddit上引發熱烈討論。Summer Getaway主題的開箱影片IG播放量突破80萬，Reddit截圖大賽獲得800+參賽帖。Sims在歐美社媒的品牌效應極強，家裝+換裝+社交的內容組合是其社媒互動的核心驅動力。",
+        advice: [
+          "<strong>品牌社媒內容調性</strong>：Sims在歐美社媒的品牌認知度極高，其社媒內容以玩家故事分享、模擬生活場景為主，軟性情感內容的互動率遠高於硬推廣，建議我遊社媒內容以玩家故事和生活場景為核心",
+          "<strong>主題Kit的發布節奏</strong>：Sims的主題Kit發布採用「預告→開箱展示→玩家應用展示→UGC反饋」的社媒節奏，這種內容鏈路值得我遊借鑑，每週發布1-2個主題套裝的開箱/搭配內容",
+          "<strong>社媒挑戰活動</strong>：Sims在Reddit和IG上定期舉辦截圖/場景搭建挑戰（如Summer Getaway主題），參與活動玩家可獲得遊戲內道具，建議我遊設計類似社媒挑戰活動驅動UGC"
+        ]
+      }
+    },
+    {
+      id: "heartopia",
+      name: "Heartopia",
+      developer: "Xindong 心動",
+      icon: "💖", iconBg: "linear-gradient(135deg,#F472B6 0%,#FBCFE8 100%)",
+      cardStripe: "#F472B6",
+      launchDate: "2024-04", age: "2 年",
+      market: {
+        mau: { value: "280 萬", delta: "+18.6%", trend: "up" },
+        revenue: { value: "$1.9M/週", delta: "+25.4%", trend: "up" }
+      ,
+        followers: { value: "180萬" }
+      ,
+        followers: { value: "85萬" }
+      },
+      gameplay: "開放世界 + 換裝 + 家裝 + 多人聯機 + 種田",
+      tags: ["開放世界", "社交", "Global"],
+      info: { platform: "iOS/Android/PC", publisher: "Xindong", scale: "グローバル急成長" },
+      weekly: {
+        posts: 15,
+        mainTopic: "Beach Party Island update + swimsuit collection + co-op event",
+        engagement: { likes: 3699.6666666666665, comments: 197, shares: 0, saves: 0},
+        sentiment: { positive: 83, neutral: 11, negative: 6 },
+        topQuote: "Beach Party Island 更新+多人聯機 IG互動創新高",
+        summary: "心動小鎮的全球版本在歐美也取得巨大成功。<strong>海外版 Heartopia 本週互動量 17.1 萬</strong>。多人聯機+UGC擺拍傳播力強，Discord社群非常活躍。",
+        advice: [
+          "<strong>社媒差異化定位</strong>：心動小鎮的社媒主打開放島嶼生活調性，建議我遊強調「小屋裝修+人物穿搭」的溫馨個性化內容，形成社媒話題的差異化定位",
+          "<strong>UGC擺拍社媒傳播</strong>：心動小鎮在IG/TikTok的玩家UGC擺拍傳播力極強，建議我遊設計#MyCozyRoom 主題標籤挑戰，激發玩家拍照分享",
+          "<strong>Discord社群運營</strong>：學習其 Discord 社群分頻道運營模式（新手區/曬圖區/建議區/活動區），提升社群的活躍度和歸屬感"
+        ]
+      }
+    },
+    {
+      id: "disney",
+      name: "Disney Magic Kingdoms",
+      developer: "Gameloft",
+      icon: "🏰", iconBg: "linear-gradient(135deg,#2563EB 0%,#60A5FA 100%)",
+      cardStripe: "#2563EB",
+      launchDate: "2016-03", age: "10 年",
+      market: {
+        mau: { value: "250 萬", delta: "-0.5%", trend: "down" },
+        revenue: { value: "$1.5M/週", delta: "+2.8%", trend: "up" }
+      ,
+        followers: { value: "450萬" }
+      },
+      gameplay: "パーク経営 + ディズニーキャラ収集 + クエスト",
+      tags: ["迪士尼", "IP", "經營"],
+      info: { platform: "iOS/Android", publisher: "Gameloft", scale: "IPタイトル" },
+      weekly: {
+        posts: 18,
+        mainTopic: "Inside Out 2 event + new Baymax zone",
+        engagement: { likes: 454, comments: 8, shares: 0, saves: 0},
+        sentiment: { positive: 87, neutral: 9, negative: 4 },
+        topQuote: "Inside Out 2聯動預告 FB三平台同步發布互動創新高",
+        summary: "迪士尼魔法王國本週與迪士尼/皮克斯新作《腦筋急轉彎2》聯動活動大獲成功。IG/FB/X三平台同步預告海報和角色預覽，品牌協同效應明顯。IP聯動是其社媒內容的核心，新電影上映期間的聯動活動是每年最重要的行銷節點。",
+        advice: [
+          "<strong>IP聯動社媒策略</strong>：迪士尼藉助新電影上映的IP熱度進行遊戲內聯動是其核心行銷節奏，建議我遊評估與非競品IP（動畫/電影/潮牌）進行暑期聯動",
+          "<strong>三平台同步發布策略</strong>：迪士尼在IG/FB/X三平台同步發布相同內容但適配各平台調性（IG更視覺導向、X更互動導向），值得我遊借鑑",
+          "<strong>內容排期學習</strong>：其社媒內容圍繞動畫/電影上映排期，提前4-6週預告→每週發布新預覽→上線日集中發布→UGC徵集，節奏清晰"
+        ]
+      }
+    },
+    {
+      id: "timeprincess",
+      name: "Time Princess",
+      developer: "IGG",
+      icon: "👑", iconBg: "linear-gradient(135deg,#A855F7 0%,#C084FC 100%)",
+      cardStripe: "#A855F7",
+      launchDate: "2019-09", age: "6 年",
+      market: {
+        mau: { value: "320 萬", delta: "+3.2%", trend: "up" },
+        revenue: { value: "$2.6M/週", delta: "+6.4%", trend: "up" }
+      ,
+        followers: { value: "220萬" }
+      },
+      gameplay: "互動故事 + 換裝 + 多主題書",
+      tags: ["敘事", "換裝", "女性向"],
+      info: { platform: "iOS/Android", publisher: "IGG", scale: "女性向グローバルトップ" },
+      weekly: {
+        posts: 8,
+        mainTopic: "新書 'Gilded Echoes' 預告 + 限時禮服",
+        engagement: { likes: 219, comments: 46, shares: 0, saves: 0},
+        sentiment: { positive: 86, neutral: 9, negative: 5 },
+        topQuote: "Gilded Echoes新書預告IG互動38萬 幕後花絮收藏率2倍",
+        summary: "新書上線是核心節奏。<strong>新書預告24小時內IG互動量達38萬</strong>。換裝Gacha收入穩定。",
+        advice: [
+          "<strong>新書預告社媒節奏</strong>：Time Princess新書發布採用『角色剪影→故事背景→服裝預覽→上線倒數』三步預告法，IG Reels預告片24小時互動達38萬。建議我遊大型版本更新採用類似懸念式預告，每2-3天發布一則線索",
+          "<strong>IG幕後花絮策略</strong>：其幕後設計花絮內容（服裝概念圖、設計過程）收藏率是普通貼文的2倍。建議我遊社媒發布家具/穿搭設計幕後內容，增加品牌透明度和粉絲忠誠度",
+          "<strong>主題切換社媒話題</strong>：Time Princess每次主題切換（新書）在IG上引發大量穿搭投票和角色討論。建議我遊在新版本推出前舉辦『你最期待的主題』投票活動，提前製造話題"
+        ]
+      }
+    },
+    {
+      id: "acmobile",
+      name: "Animal Crossing: Pocket Camp",
+      developer: "Nintendo",
+      icon: "🍃", iconBg: "linear-gradient(135deg,#22C55E 0%,#86EFAC 100%)",
+      cardStripe: "#22C55E",
+      launchDate: "2017-10", age: "8 年",
+      market: {
+        mau: { value: "180 萬", delta: "+6.8%", trend: "up" },
+        revenue: { value: "$1.35M/週", delta: "+9.2%", trend: "up" }
+      ,
+        followers: { value: "380萬" }
+      },
+      gameplay: "營地經營 + 動物交流 + 家具 + 季節活動",
+      tags: ["任天堂", "經營", "長線"],
+      info: { platform: "iOS/Android", publisher: "Nintendo", scale: "任天堂IP" },
+      weekly: {
+        posts: 5,
+        mainTopic: "Summer Sunset 活動 + 海洋生物家具",
+        engagement: { likes: 142000, comments: 5800, shares: 3100, saves: 9800 },
+        sentiment: { positive: 89, neutral: 8, negative: 3 },
+        topQuote: "夏季海灘主題 #ACPC 7天4萬帖 DIY截圖互動高40%",
+        summary: "Pocket Camp 在歐美持續穩定輸出。<strong>IG UGC標籤#ACPC 7天4萬篇</strong>。",
+        advice: [
+          "<strong>季節活動社媒節奏</strong>：動森的『季節+限定+儀式感』活動設計在IG/UGC上引發大量討論，#ACPC 標籤7天4萬帖。建議我遊設計夏日限定主題活動，搭配IG專屬標籤挑戰和限時道具獎勵",
+          "<strong>IG UGC互動活動</strong>：動森的DIY截圖在IG互動率比普通貼文高40%。建議我遊在IG舉辦 #MySummerRoom 截圖大賽，每週評選最佳作品，以遊戲內限定家具為獎勵",
+          "<strong>角色IP社媒內容</strong>：動森動物NPC的個性化設計是社媒內容的天然素材庫。建議我遊為遊戲角色/寵物設計個性化社媒內容（角色日常漫畫、對話台詞），增加社媒內容的趣味性和辨識度"
+        ]
+      }
+    }
+  ],
+  benchmark: {
+    myGame: {
+      name: "My Leisure Time",
+      developer: "自研",
+      icon: "🏡", iconBg: "linear-gradient(135deg,#8B5CF6 0%,#C4B5FD 100%)",
+      cardStripe: "#8B5CF6",
+      launchDate: "2024-Q4", age: "1.5 年",
+      market: {
+        mau: { value: "38 萬", delta: "+6.5%", trend: "up" },
+        revenue: { value: "$74K/週", delta: "+9.8%", trend: "up" }
+      },
+      tags: ["自研", "治癒", "裝修換裝"],
+      community: { followers: "9.2萬", weekly_engagement: "6.8萬", top_post: "Summer Cottage Makeover Challenge 2.8萬互動" }
+    },
+    lastWeek: {
+      revenueIndex: 88,
+      dauIndex: 85,
+      communityEngagement: 78
+    }
+  }
+};
+// ============ 港台 🏯 (FB) ============
+DATA.hktw = {
+  region: "港台",
+  flag: "🏯",
+  platform: "Facebook",
+  platformShort: "FB",
+  platformColor: "#1877F2",
+  weekRange: "2026/07/13 - 07/19",
+  hotTopics: {
+    top5: [
+      { rank: 1, game: "戀與深空", content: "我正在等待沒有危險區域和迷霧的新生,所以很興奮", engagement: "👍1.0万 💬1.1K", link: "https://www.facebook.com/LoveandDeepspaceEN", time: "2026-07-24" },
+      { rank: 2, game: "心動小鎮", content: "", engagement: "👍4.5K 💬195", link: "https://www.facebook.com/HeartopiaTW", time: "2026-07-24" },
+      { rank: 3, game: "動物餐廳", content: "", engagement: "👍1.6K 💬120", link: "https://www.facebook.com/animalrestaurantTW/", time: "2026-07-24" },
+      { rank: 4, game: "閃耀暖暖", content: "和Uio一起點亮第4顆星，將心願化作閃耀星光繼續同行～", engagement: "👍345 💬988", link: "https://www.facebook.com/ShiningNikkiTW", time: "2026-07-24" },
+      { rank: 5, game: "桃園深處有人家", content: "", engagement: "👍445 💬192", link: "https://www.facebook.com/Luoluo.Official", time: "2026-07-24" }
+    ], trending: [
+      { tag: "#夏日穿搭", desc: "港台年輕女性夏日穿搭分享熱度高，IG限動大量曝光", volume: "35.2萬" },
+      { tag: "#房間改造", desc: "家居佈置/房間改造在Dcard和IG上持續火熱", volume: "22.6萬" },
+      { tag: "#暑假計畫", desc: "學生放暑假，旅遊/手作/遊戲等休閒話題增加", volume: "18.4萬" },
+      { tag: "#七夕禮物", desc: "距離七夕一個月，禮物推薦/約會行程話題升溫", volume: "14.8萬" },
+      { tag: "#寵物日常", desc: "貓咪狗狗萌寵內容互動率最高，年輕女性愛分享", volume: "12.3萬" },
+      { tag: "#手作DIY", desc: "手作/布置DIY在港台女性中小眾但黏性高", volume: "9.7萬" },
+      { tag: "#療癒系", desc: "療癒內容（遊戲/音樂/影片）需求上升，壓力大的都市女性偏愛", volume: "8.5萬" },
+      { tag: "#美食日記", desc: "夏日美食/冰品探店內容分享熱度高", volume: "7.2萬" },
+      { tag: "#開學倒數", desc: "8月底開學倒數，學生族群最後的暑假衝刺話題", volume: "5.6萬" },
+      { tag: "#週末去哪裡", desc: "週末出遊/聚會行程靈感分享", volume: "4.3萬" }
+    ],opportunities: [
+      { tag: "夏日小屋主題", type: "opportunity", desc: "港台用戶對夏日清涼小屋裝飾需求高，可做限定家具", priority: "高" },
+      { tag: "七夕聯動", type: "opportunity", desc: "7/25起進入七夕預熱期，適合做情侶/閨蜜主題活動", priority: "高" },
+      { tag: "暑假回歸", type: "opportunity", desc: "暑假是用戶回歸高峰，回歸獎勵活動可有效召回老玩家", priority: "中" },
+      { tag: "寵物主題活動", type: "opportunity", desc: "貓咪狗狗主題內容互動率高，可做寵物家具/穿搭系列", priority: "中" },
+      { tag: "IG Reels改造挑戰", type: "opportunity", desc: "IG短影音改造挑戰賽可激發UGC傳播，獎勵限定道具", priority: "低" }
+    ]
+  },
+          calendar: [
+      { date: 20260101, name: "元旦 🎉", level: "high", note: "#元旦 #新年快樂" },
+      { date: 20260115, name: "寒假開始 🎒", level: "high", note: "#寒假 學生DAU上升" },
+      { date: 20260125, name: "春節前一週 🧧", level: "high", note: "#春節 #過年 春節預熱" },
+      { date: 20260129, name: "除夕 🧧", level: "high", note: "#除夕 #年夜飯" },
+      { date: 20260201, name: "春節 🧧", level: "high", note: "#春節 #新年 #龍年 限定活動" },
+      { date: 20260214, name: "情人節 💕", level: "high", note: "#情人節 #ValentinesDay" },
+      { date: 20260228, name: "228和平紀念日 🕊️", level: "high", note: "敏感日 #228 暫停娛樂行銷" },
+      { date: 20260301, name: "開學季 🎒", level: "high", note: "#開學 #新學期" },
+      { date: 20260308, name: "婦女節 👩", level: "medium", note: "#婦女節" },
+      { date: 20260314, name: "白色情人節 🤍", level: "medium", note: "#白色情人節" },
+      { date: 20260404, name: "兒童節 🧒", level: "medium", note: "#兒童節" },
+      { date: 20260405, name: "清明節 🌿", level: "medium", note: "#清明節 慎發娛樂內容" },
+      { date: 20260501, name: "勞動節 🛠️", level: "medium", note: "#勞動節" },
+      { date: 20260510, name: "母親節 🌷", level: "high", note: "#母親節" },
+      { date: 20260520, name: "520 💕", level: "high", note: "#520 #我愛你 重要SNS日" },
+      { date: 20260607, name: "端午節 🐉", level: "high", note: "#端午節 #粽子 #划龍舟" },
+      { date: 20260615, name: "618購物節 🛍️", level: "medium", note: "#618 #年中慶" },
+      { date: 20260630, name: "暑假開始 🏖️", level: "high", note: "#暑假" },
+      { date: 20260701, name: "香港回歸紀念日 🇭🇰", level: "high", note: "敏感日 避免政治內容" },
+      { date: 20260715, name: "暑假中盤 ☀️", level: "high", note: "#暑假 大型活動推出" },
+      { date: 20260722, name: "大暑 🥵", level: "medium", note: "#大暑 #夏日清涼" },
+      { date: 20260725, name: "七夕 💕", level: "high", note: "#七夕 #情人節 限定活動" },
+      { date: 20260801, name: "暑假後半 🏖️", level: "high", note: "#暑假 暑期收官" },
+      { date: 20260808, name: "父親節 👔", level: "high", note: "#父親節" },
+      { date: 20260815, name: "中元節 🏮", level: "medium", note: "#中元節 注意內容調性" },
+      { date: 20260825, name: "暑假結束 🎒", level: "high", note: "#開學準備" },
+      { date: 20260901, name: "開學季 📚", level: "high", note: "#開學 #新學期" },
+      { date: 20260910, name: "教師節 👩‍🏫", level: "medium", note: "#教師節" },
+      { date: 20260921, name: "中秋節 🌙", level: "high", note: "#中秋節 #月圓 限定活動" },
+      { date: 20261001, name: "國慶日 🇨🇳", level: "high", note: "敏感日 政治敏感" },
+      { date: 20261010, name: "雙十國慶 🇹🇼", level: "high", note: "敏感日 避免政治表述" },
+      { date: 20261031, name: "萬聖節 🎃", level: "high", note: "#萬聖節 #Halloween" },
+      { date: 20261111, name: "雙11 🛍️", level: "high", note: "#雙11 #1111 購物節" },
+      { date: 20261125, name: "黑色星期五 🛒", level: "medium", note: "#BlackFriday" },
+      { date: 20261201, name: "聖誕季開始 🎄", level: "high", note: "#聖誕節 #Christmas" },
+      { date: 20261210, name: "雙12 🛍️", level: "medium", note: "#雙12" },
+      { date: 20261220, name: "冬至 🥟", level: "low", note: "#冬至" },
+      { date: 20261224, name: "平安夜 🎄", level: "high", note: "#平安夜 #ChristmasEve" },
+      { date: 20261225, name: "聖誕節 🎄", level: "high", note: "#聖誕節 #MerryChristmas" },
+      { date: 20261231, name: "跨年 🎆", level: "high", note: "#跨年 #NewYear" },
+      
+      { date: 20260917, name: "中秋節 🌕", level: "high", note: "#中秋節 #月餅 #團圓 重要節日限定活動" },
+      { date: 20261019, name: "重陽節 🧧", level: "medium", note: "#重陽節" },
+      { date: 20261226, name: "聖誕節翌日 🎁", level: "medium", note: "#BoxingDay" },
+],
+  nextWeek: [
+    { type: "holiday", label: "🎌 節日", content: "7/22 大暑 - 推出清涼消暑主題家具/穿搭 #大暑 #夏日清涼" },
+    { type: "topic", label: "📈 話題", content: "七夕預熱期開始 - FB/IG發布「你的小屋約會穿搭」互動投票 #七夕 #情人節" },
+    { type: "content", label: "💡 內容建議", content: "暑假中段大型版本活動規劃 #暑假遊戲 #夏日大作戰，建議用戶生成內容挑戰" }
+  ],
+  // 風險預警
+          risks: [
+      { level: "high", content: "【政治敏感】8月兩岸關係敏感期 - FB/IG政治討論增加，遊戲社媒內容需嚴格避免涉政" },
+      { level: "high", content: "【敏感話題】2/28和平紀念日 - 台灣政治敏感日，FB社媒避免政治相關內容" },
+      { level: "high", content: "【敏感話題】10月雙十/國慶 - 港台立場不同，社媒內容需極度審慎" },
+      { level: "high", content: "【政治敏感】7/1香港回歸紀念日 - 社會討論升溫，內容需審慎" },
+      { level: "medium", content: "【自然災害】7-9月颱風季 - 颱風期間推出宅家改造主題，重大災害暫停娛樂行銷" },
+      { level: "medium", content: "【競品風險】戀與深空七夕大型活動 - 可能大量搶奪女性用戶社媒注意力" },
+      { level: "medium", content: "【競品風險】心動小鎮新版本/聯動 - 直接競品動向需持續監控" },
+      { level: "low", content: "【自然災害】5-6月梅雨季 - 暴雨天數增加，室內活動主題" },
+      { level: "low", content: "【社會敏感】學測/會考(1月/5月) - 考試期間學生活躍度下降" },
+      { level: "low", content: "【競品風險】閃耀暖暖/奇蹟暖暖週年 - 疊紙系產品週年活動可能帶動女性社媒熱潮" },
+      ],
+  competitors: [
+    {
+      id: "heartopia",
+      name: "心動小鎮 Heartopia",
+      developer: "Xindong 心動",
+      icon: "💖", iconBg: "linear-gradient(135deg,#F472B6 0%,#FBCFE8 100%)",
+      cardStripe: "#F472B6",
+      launchDate: "2024-04", age: "2 年",
+      market: {
+        mau: { value: "380 萬", delta: "+15.2%", trend: "up" },
+        revenue: { value: "HK$ 1,580 萬/週", delta: "+22.4%", trend: "up" }
+      },
+      gameplay: "開放世界 + 換裝 + 家裝 + 多人聯機 + 種田",
+      tags: ["開放世界", "社交", "TapTap"],
+      info: { platform: "iOS/Android/PC", publisher: "心動", scale: "港台最強對手" },
+      weekly: {
+        posts: 14,
+        mainTopic: "「夏日島嶼祭」活動 + 全新海島場景 + 限定泳裝",
+        engagement: { likes: 285000, comments: 18000, shares: 12000 },
+        sentiment: { positive: 86, neutral: 9, negative: 5 },
+        topQuote: "心動小鎮FB互動38萬！夏日活動IG Reels 12萬觀看",
+        summary: "夏日活動引爆港台女性用戶。<strong>FB粉專本週互動量達38萬</strong>。台灣TapTap社群每日新增8000+帖子。多人聯機+UGC擺拍傳播力強。",
+        advice: [
+          "<strong>社媒差異化定位</strong>：心動小鎮的社媒主打開放島嶼生活調性，建議我遊強調「小屋裝修+人物穿搭」的溫馨個性化內容，形成社媒話題的差異化定位",
+          "<strong>FB/IG/抖音獨立社群建設</strong>：心動小鎮在TapTap有絕對渠道優勢，建議我遊優先建設FB社團和IG官方帳號的獨立社群，通過獨家內容和互動活動積累自有粉絲",
+          "<strong>UGC活動對標</strong>：心動小鎮的夏日IG Reels活動獲得12萬觀看，建議我遊設計以#我的小屋 為主題的IG短影音/UGC活動，驅動港台女性用戶的創作與分享"
+        ]
+      }
+    },
+    {
+      id: "taoyuan",
+      name: "桃園深處有人家",
+      developer: "TapTap 獨家",
+      icon: "🏯", iconBg: "linear-gradient(135deg,#10B981 0%,#6EE7B7 100%)",
+      cardStripe: "#10B981",
+      launchDate: "2023-11", age: "2 年",
+      market: {
+        mau: { value: "120 萬", delta: "+8.4%", trend: "up" },
+        revenue: { value: "HK$ 510 萬/週", delta: "+11.2%", trend: "up" }
+      ,
+        followers: { value: "45萬" }
+      },
+      gameplay: "國風田園 + 種田 + 家園 + 角色互動 + 國風服飾",
+      tags: ["國風", "田園", "TapTap"],
+      info: { platform: "iOS/Android", publisher: "TapTap", scale: "國風細分龍頭" },
+      weekly: {
+        posts: 9,
+        mainTopic: "「桃林夜話」版本更新 + 國風新角色「桃花仙」+ 七夕活動預告",
+        engagement: { likes: 363, comments: 168.5, shares: 0, saves: 0},
+        sentiment: { positive: 84, neutral: 11, negative: 5 },
+        topQuote: "桃園FB台灣用戶佔45%！七夕國風預告互動8.6萬",
+        summary: "國風細分賽道龍頭。七夕活動預告在FB互動量8.6萬。<strong>台灣用戶佔比45%</strong>。國風美術+佛系經營是穩定護城河。",
+        advice: [
+          "<strong>七夕節點社媒策略</strong>：桃園已提前一個月開始七夕活動預告，FB互動8.6萬。建議我遊在7/25前發布七夕主題家具/穿搭預告，並在FB/IG設計『七夕小屋約會穿搭』投票活動，提前搶佔話題",
+          "<strong>國風社媒內容調性</strong>：桃園的國風美術內容在FB上獲得高互動，其『大暑節氣』文化內容尤受好評。建議我遊社媒增加節氣/節日相關文化內容（如夏季清涼小知識、節日故事），提升內容質感",
+          "<strong>台灣用戶社群深耕</strong>：該遊戲台灣用戶占比45%，在FB社團運營深入。建議我遊在港台FB建立品牌社團，定期舉辦獨家社團活動（如社員專屬家具投票），培養核心粉絲群"
+        ]
+      }
+    },
+    {
+      id: "sn",
+      name: "閃耀暖暖 Shining Nikki",
+      developer: "Papergames 疊紙",
+      icon: "✨", iconBg: "linear-gradient(135deg,#FBBF24 0%,#FEF3C7 100%)",
+      cardStripe: "#FBBF24",
+      launchDate: "2019-04", age: "7 年",
+      market: {
+        mau: { value: "95 萬", delta: "-1.8%", trend: "down" },
+        revenue: { value: "HK$ 1,120 萬/週", delta: "+3.2%", trend: "up" }
+      ,
+        followers: { value: "280萬" }
+      },
+      gameplay: "3D 精緻換裝 + 劇情 + 拍照 + 社交",
+      tags: ["3D換裝", "疊紙", "精緻"],
+      info: { platform: "iOS/Android", publisher: "疊紙", scale: "3D換裝天花板" },
+      weekly: {
+        posts: 7,
+        mainTopic: "「星海之約」聯動 + 限定套裝 + IG拍照挑戰",
+        engagement: { likes: 276.5, comments: 526, shares: 0, saves: 0},
+        sentiment: { positive: 79, neutral: 13, negative: 8 },
+        topQuote: "閃耀暖暖FB互動21萬 三步預告+搭配賽投稿3000+",
+        summary: "疊紙在港台的品牌力極強。<strong>FB粉絲280萬，本週互動量21萬</strong>。聯動+限定套裝是核心節奏。",
+        advice: [
+          "<strong>三步預告社媒節奏</strong>：閃耀暖暖新套裝發布採用『剪影→細節預覽→完整展示』三步預告法，FB每步互動遞增。建議我遊新家具/穿搭系列採用類似預告節奏，每2天發布一則預告，保持用戶期待感",
+          "<strong>IG拍照挑戰設計</strong>：閃暖的IG拍照挑戰活動（搭配賽投稿3000+）是其核心UGC引擎。建議我遊設計主題拍照挑戰（如『夏日泳池派對穿搭』），鼓勵玩家分享作品並標註官方帳號",
+          "<strong>IP聯動社媒內容</strong>：閃暖的IP聯動內容（動畫/電影合作）在社媒上引發大量討論。建議我遊評估與非競品IP（如生活風格品牌、動畫IP）進行社媒聯動，擴展品牌影響力"
+        ]
+      }
+    },
+    {
+      id: "lds",
+      name: "戀與深空 Love and Deepspace",
+      developer: "Papergames 疊紙",
+      icon: "💕", iconBg: "linear-gradient(135deg,#EF4444 0%,#F87171 100%)",
+      cardStripe: "#EF4444",
+      launchDate: "2024-01", age: "1.5 年",
+      market: {
+        mau: { value: "200 萬", delta: "+8.5%", trend: "up" },
+        revenue: { value: "HK$ 2,900 萬/週", delta: "+42.8%", trend: "up" }
+      ,
+        followers: { value: "580萬" }
+      },
+      gameplay: "3D 互動戀愛 + 換裝 + 約會 + 卡牌",
+      tags: ["3D乙女", "疊紙", "CP黨"],
+      info: { platform: "iOS/Android", publisher: "疊紙", scale: "乙女天花板" },
+      weekly: {
+        posts: 12,
+        mainTopic: "男主角「秦川」生日活動 + 限定卡池 + FB直播",
+        engagement: { likes: 7862.5, comments: 1369, shares: 0, saves: 0},
+        sentiment: { positive: 88, neutral: 7, negative: 5 },
+        topQuote: "戀與深空FB直播10萬人！秦川生日FB互動68萬",
+        summary: "港台乙女天花板。<strong>FB粉絲580萬，本週互動量68萬</strong>。生日活動+FB直播是強變現節奏。",
+        advice: [
+          "<strong>FB直播互動策略</strong>：戀與深空男主角生日FB直播吸引10萬人同時在線，互動量68萬。建議我遊在港台FB嘗試定期直播（新品發布、開發者問答、玩家互動），搭配直播限定虛寶碼激勵參與",
+          "<strong>角色生日社媒活動</strong>：其角色生日活動（限定卡池+FB直播）是年度最強互動節點。建議我遊設計遊戲角色/寵物的生日慶祝活動，提前2週在社媒預熱，發布角色日常內容累積期待",
+          "<strong>跨品類社媒聯動</strong>：休閒時光+乙女遊戲可進行跨界社媒聯動（互換社媒貼文、聯合主題活動），觸及對方的女性用戶群，擴大品牌認知"
+        ]
+      }
+    },
+    {
+      id: "miracle",
+      name: "奇蹟暖暖",
+      developer: "Papergames 疊紙",
+      icon: "🌸", iconBg: "linear-gradient(135deg,#EC4899 0%,#F9A8D4 100%)",
+      cardStripe: "#EC4899",
+      launchDate: "2015-04", age: "11 年",
+      market: {
+        mau: { value: "62 萬", delta: "-2.4%", trend: "down" },
+        revenue: { value: "HK$ 420 萬/週", delta: "+1.2%", trend: "up" }
+      ,
+        followers: { value: "180萬" }
+      },
+      gameplay: "2D 經典換裝 + 章節 + 競技",
+      tags: ["2D換裝", "老牌", "懷舊"],
+      info: { platform: "iOS/Android", publisher: "疊紙", scale: "長青IP" },
+      weekly: {
+        posts: 4,
+        mainTopic: "11週年活動預告 + 復刻經典套裝",
+        engagement: { likes: 78000, comments: 6800, shares: 4200 },
+        sentiment: { positive: 81, neutral: 13, negative: 6 },
+        topQuote: "奇蹟暖暖11週年FB互動8.9萬！復刻套裝喚回老玩家20%",
+        summary: "長青IP，11週年活動拉動老玩家回歸。<strong>本週互動量8.9萬</strong>。",
+        advice: [
+          "<strong>週年慶社媒活動模板</strong>：奇蹟暖暖11週年活動以『復刻經典套裝』喚回老玩家20%，建議我遊在週年/節日檔期設計『經典家具/穿搭復刻』活動，社媒提前一個月分批預告經典內容，激發情懷共鳴",
+          "<strong>復刻預告的社媒節奏</strong>：暖暖的復刻活動採用『玩家投票選出最想復刻的套裝→分批預告→上線』的互動模式，大大提升參與感。建議我遊在FB舉辦『你最想念的限定家具』投票，選出前5名進行復刻",
+          "<strong>跨代用戶社媒策略</strong>：暖暖系列11年積累多代玩家，其社媒內容會同時照顧老玩家的情懷和新玩家的新鮮感。建議我遊社媒交替發布懷舊內容（經典家具回顧）和新內容（新版本預告），平衡不同用戶群"
+        ]
+      }
+    },
+    {
+      id: "food",
+      name: "食物語",
+      developer: "天梯網絡",
+      icon: "🍱", iconBg: "linear-gradient(135deg,#F97316 0%,#FDBA74 100%)",
+      cardStripe: "#F97316",
+      launchDate: "2018-10", age: "7 年",
+      market: {
+        mau: { value: "45 萬", delta: "-3.2%", trend: "down" },
+        revenue: { value: "HK$ 230 萬/週", delta: "-2.1%", trend: "down" }
+      ,
+        followers: { value: "65萬" }
+      },
+      gameplay: "食魂國風收集 + 養成 + 戰鬥 + 餐廳經營",
+      tags: ["國風", "養成", "女性向"],
+      info: { platform: "iOS/Android", publisher: "天梯", scale: "老牌衰退" },
+      weekly: {
+        posts: 3,
+        mainTopic: "「端午食錄」活動回顧 + 新食魂預告",
+        engagement: { likes: 32000, comments: 2400, shares: 1400 },
+        sentiment: { positive: 62, neutral: 24, negative: 14 },
+        topQuote: "食物語FB互動僅1.5萬 更新慢導致玩家流失的警示案例",
+        summary: "老牌國風女性向遊戲，DAU持續下滑。<strong>玩家投訴集中在「更新慢」+「玩法單一」</strong>。",
+        advice: [
+          "<strong>社媒更新頻率的教訓</strong>：食物語因更新慢導致DAU持續下滑，玩家投訴集中在社媒上。建議我遊保持穩定的社媒更新節奏（至少每日1條），避免長期沈默讓社群冷卻",
+          "<strong>老玩家回流社媒策略</strong>：食物語的案例說明老玩家的社媒抱怨會影響新用戶認知。建議我遊建立玩家反饋回應機制，在社媒上定期發布開發進度/未來規劃，減少玩家不安全感",
+          "<strong>國風女性向社媒內容</strong>：食物語的國風美術和角色故事仍有用戶基礎。建議我遊如果走國風路線，社媒內容以角色故事/美術設定為主，搭配節日文化內容"
+        ]
+      }
+    },
+    {
+      id: "xiaosen",
+      name: "小森生活",
+      developer: "睿邏網絡",
+      icon: "🌳", iconBg: "linear-gradient(135deg,#22C55E 0%,#BBF7D0 100%)",
+      cardStripe: "#22C55E",
+      launchDate: "2021-04", age: "5 年",
+      market: {
+        mau: { value: "38 萬", delta: "-1.2%", trend: "down" },
+        revenue: { value: "HK$ 170 萬/週", delta: "+2.4%", trend: "up" }
+      ,
+        followers: { value: "38萬" }
+      },
+      gameplay: "日系田園生活 + 種田 + 製作 + 探索",
+      tags: ["日系", "田園", "生活模擬"],
+      info: { platform: "iOS/Android", publisher: "睿邏", scale: "日系生活" },
+      weekly: {
+        posts: 3,
+        mainTopic: "「盛夏祭」活動 + 限定家具",
+        engagement: { likes: 28000, comments: 1800, shares: 980 },
+        sentiment: { positive: 71, neutral: 19, negative: 10 },
+        topQuote: "小森生活FB互動3.2萬 玩家曬圖為主但內容不足",
+        summary: "日系生活模擬老兵。<strong>本週互動3.2萬，以曬圖為主</strong>。",
+        advice: [
+          "<strong>UGC曬圖社群運營</strong>：小森生活在FB以玩家曬圖為主要社群內容，互動量3.2萬但內容形式單一。建議我遊在此基礎上增加主題性UGC活動（如『每週最佳小屋』評選、『穿搭搭配賽』），豐富內容層次",
+          "<strong>社媒內容更新頻率</strong>：小森生活因更新慢導致玩家流失，社媒內容也隨之減少。建議我遊保持穩定社媒更新節奏（每日至少1條），即使在非活動期也發布軟性內容保持社群活躍",
+          "<strong>日系清新社媒調性</strong>：其日系田園風格的軟性內容在港台女性中接受度高，建議我遊社媒視覺風格統一為清新治癒路線，搭配季節主題（夏季清涼感、秋季溫暖感）"
+        ]
+      }
+    },
+    {
+      id: "sumikko",
+      name: "角落生物 Sumikko Gurashi",
+      developer: "San-X",
+      icon: "🐻", iconBg: "linear-gradient(135deg,#A78BFA 0%,#DDD6FE 100%)",
+      cardStripe: "#A78BFA",
+      launchDate: "2020-08", age: "5 年",
+      market: {
+        mau: { value: "32 萬", delta: "+4.2%", trend: "up" },
+        revenue: { value: "HK$ 135 萬/週", delta: "+6.8%", trend: "up" }
+      ,
+        followers: { value: "95萬" }
+      },
+      gameplay: "角落生物收集 + 房間裝飾 + 簡單任務",
+      tags: ["IP", "治癒", "kawaii"],
+      info: { platform: "iOS/Android", publisher: "San-X", scale: "IP衍生" },
+      weekly: {
+        posts: 4,
+        mainTopic: "「角落小鎮」新章節 + 限定生物",
+        engagement: { likes: 48000, comments: 3200, shares: 2100 },
+        sentiment: { positive: 88, neutral: 9, negative: 3 },
+        topQuote: "角落生物FB互動5.2萬 San-X IP聯名產品上線即售罄",
+        summary: "San-X IP在港台年輕女性中滲透率極高。<strong>FB粉絲95萬，本週互動5.2萬</strong>。",
+        advice: [
+          "<strong>IP社媒內容策略</strong>：San-X角落生物的IP角色在港台年輕女性中滲透率極高，FB粉絲95萬。建議我遊社媒內容增加角色IP化元素（為家具/穿搭賦予角色故事），提升內容的記憶點和分享性",
+          "<strong>FB社團社群運營</strong>：角落生物FB社團以角色日常分享和粉絲創作互動為核心，互動率穩定。建議我遊建立產品主題FB社團，以「小屋改造/穿搭分享」為核心內容，培養歸屬感",
+          "<strong>kawaii風社媒調性</strong>：角落生物的社媒以軟萌治癒的視覺風格為主，無壓力感正是其吸引核心用戶的關鍵。建議我遊社媒設計統一的可愛治癒風格，避免過度商業化內容"
+        ]
+      }
+    },
+    {
+      id: "jiangnan",
+      name: "江南百景圖",
+      developer: "椰島遊戲",
+      icon: "🏘️", iconBg: "linear-gradient(135deg,#DC2626 0%,#FCA5A5 100%)",
+      cardStripe: "#DC2626",
+      launchDate: "2020-07", age: "6 年",
+      market: {
+        mau: { value: "55 萬", delta: "-0.8%", trend: "down" },
+        revenue: { value: "HK$ 280 萬/週", delta: "+1.5%", trend: "up" }
+      ,
+        followers: { value: "120萬" }
+      },
+      gameplay: "古風城市經營 + 角色收集 + 探索",
+      tags: ["國風", "經營", "椰島"],
+      info: { platform: "iOS/Android", publisher: "椰島", scale: "國風經營" },
+      weekly: {
+        posts: 4,
+        mainTopic: "「蘇州府」新場景 + 七夕限定居民",
+        engagement: { likes: 56000, comments: 4800, shares: 2800 },
+        sentiment: { positive: 74, neutral: 16, negative: 10 },
+        topQuote: "江南百景圖FB互動6.2萬 大暑節氣文化內容獲好評",
+        summary: "古風城市經營代表。<strong>本週互動6.2萬</strong>。",
+        advice: [
+          "<strong>文化內容社媒策略</strong>：江南百景圖在FB以節氣/節日文化內容（如大暑節氣插畫、端午故事）獲得高互動。建議我遊社媒增加節氣相關的知識性/美學內容，如『夏季家居清涼搭配指南』、『節日小屋裝飾靈感』",
+          "<strong>國風社媒視覺統一</strong>：其社媒視覺風格極具辨識度的國風統一調性。建議我遊建立品牌社媒視覺規範（色系、字體、排版風格），確保所有社媒貼文有統一的辨識度",
+          "<strong>長期社媒社區建設</strong>：6年穩定運營的關鍵之一是持續的社媒互動。建議我遊建立社媒內容排期表，確保每週有固定欄目（如#週五玩家作品展示、#週一小屋靈感），培養用戶查看習慣"
+        ]
+      }
+    },
+    {
+      id: "catcafe",
+      name: "動物餐廳 Animal Restaurant",
+      developer: "Droidhang",
+      icon: "🐾", iconBg: "linear-gradient(135deg,#22C55E 0%,#BBF7D0 100%)",
+      cardStripe: "#22C55E",
+      launchDate: "2022-03", age: "4 年",
+      market: {
+        mau: { value: "48 萬", delta: "+2.1%", trend: "up" },
+        revenue: { value: "HK$ 160 萬/週", delta: "+4.5%", trend: "up" }
+      ,
+        followers: { value: "42萬" }
+      },
+      gameplay: "餐廳經營 + 動物互動 + 收集 + 放置",
+      tags: ["動物", "經營", "治癒"],
+      info: { platform: "iOS/Android", publisher: "Droidhang", scale: "輕度經營" },
+      weekly: {
+        posts: 5,
+        mainTopic: "「夏日冰品」活動 + 限定貓咪皮膚",
+        engagement: { likes: 1627, comments: 120, shares: 0, saves: 0},
+        sentiment: { positive: 82, neutral: 13, negative: 5 },
+        topQuote: "貓咪咖啡廳限定皮膚上線 每日揭露一隻新品種貓咪",
+        summary: "輕度貓咪經營，<strong>在港台年輕女性中滲透率穩步提升</strong>。",
+        advice: [
+          "<strong>角色主題社媒節奏</strong>：動物餐廳每日限時揭露新品種動物/菜單的『懸念式預告』在FB獲得高互動，建議我遊在港台FB採用『每日一隻新品種貓咪/動物』的倒計時預告形式，提升用戶期待感和互動率",
+          "<strong>跨遊戲社媒聯動</strong>：動物餐廳與貓咪和湯（同公司）定期進行跨遊戲社媒互推（交換社媒貼文、設計聯動活動），效果顯著。建議我遊可與非競品休閒遊戲（如烹飪類、種植類）進行FB/IG聯名活動",
+          "<strong>治癒系社媒調性</strong>：該遊戲社媒以動物日常的可愛動圖/短影音為主，這類軟性情緒內容分享率高於硬推廣。建議我遊社媒增加玩家小屋/穿搭的溫馨日常內容比例，搭配夏日主題打造治癒感"
+        ]
+      }
+    }
+  ],
+  benchmark: {
+    myGame: {
+      name: "我的休閒時光",
+      developer: "自研",
+      icon: "🏡", iconBg: "linear-gradient(135deg,#8B5CF6 0%,#C4B5FD 100%)",
+      cardStripe: "#8B5CF6",
+      launchDate: "2024-Q4", age: "1.5 年",
+      market: {
+        mau: { value: "65 萬", delta: "+7.8%", trend: "up" },
+        revenue: { value: "HK$ 420 萬/週", delta: "+11.2%", trend: "up" }
+      },
+      tags: ["自研", "治癒", "小屋換裝"],
+      community: { followers: "22.5萬", weekly_engagement: "15.2萬", top_post: "夏日小屋改造大賽 FB互動8.6萬" }
+    },
+    lastWeek: {
+      revenueIndex: 95,
+      dauIndex: 92,
+      communityEngagement: 88
+    }
+  }
+};
+// ============ 日本 🇯🇵 (X) ============
+let currentSection = 'hot';
+let currentRegion = 'jp';
+let currentHotRegion = 'jp';
+let currentCalRegion = 'jp';
+let currentCalendarMonth = null;  // null = year overview, 0-11 = specific month
+let currentWeek = 0;
+let today = new Date();
+
+const $ = id => document.getElementById(id);
+const el = (tag, attrs = {}, ...children) => {
+  const e = document.createElement(tag);
+  Object.entries(attrs).forEach(([k, v]) => {
+    if (k === 'class') e.className = v;
+    else if (k === 'style') Object.assign(e.style, v);
+    else if (k.startsWith('on') && typeof v === 'function') e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v);
+  });
+  children.forEach(ch => {
+    if (ch == null || ch === false) return;
+    if (typeof ch === 'string' || typeof ch === 'number') e.appendChild(document.createTextNode(ch));
+    else if (Array.isArray(ch)) ch.forEach(c => { if (c) e.appendChild(c); });
+    else e.appendChild(ch);
+  });
+  return e;
+};
+
+// Safe innerHTML for HTML content (fix <strong> bug)
+const htmlEl = (tag, attrs = {}, htmlContent) => {
+  const e = document.createElement(tag);
+  Object.entries(attrs).forEach(([k, v]) => {
+    if (k === 'class') e.className = v;
+    else if (k === 'style') Object.assign(e.style, v);
+    else if (k.startsWith('on') && typeof v === 'function') e.addEventListener(k.slice(2), v);
+    else e.setAttribute(k, v);
+  });
+  e.innerHTML = htmlContent;
+  return e;
+};
+
+// =============================================
+// 今日日期
+// =============================================
+function updateDate() {
+  const d = new Date();
+  const days = ['日','一','二','三','四','五','六'];
+  const s = d.getFullYear() + '/' + String(d.getMonth()+1).padStart(2,'0') + '/' + String(d.getDate()).padStart(2,'0') + ' (' + days[d.getDay()] + ')';
+  const el = $('todayDate');
+  if (el) el.textContent = s;
+}
+updateDate();
+
+// =============================================
+// Section navigation
+// =============================================
+document.querySelectorAll('.section-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentSection = tab.dataset.section;
+    document.querySelectorAll('.section-content').forEach(s => s.classList.remove('active'));
+    const target = document.getElementById('sec' + currentSection.charAt(0).toUpperCase() + currentSection.slice(1));
+    if (target) target.classList.add('active');
+    // Render if needed
+    if (currentSection === 'competitors') renderAllCompetitors();
+    if (currentSection === 'calendar') renderAllCalendar();
+    if (currentSection === 'hot') renderAllHot();
+  });
+});
+
+// =============================================
+// Region sub-tab handlers
+// =============================================
+document.querySelectorAll('[data-region]').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const parent = tab.closest('.region-sub-bar') || tab.parentElement;
+    parent.querySelectorAll('.region-sub-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentRegion = tab.dataset.region;
+    renderAllCompetitors();
+  });
+});
+
+document.querySelectorAll('[data-rh]').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const parent = tab.closest('.region-sub-bar') || tab.parentElement;
+    parent.querySelectorAll('.region-sub-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentHotRegion = tab.dataset.rh;
+    renderHotTopics();
+  });
+});
+
+document.querySelectorAll('[data-rc]').forEach(tab => {
+  tab.addEventListener('click', () => {
+    const parent = tab.closest('.region-sub-bar') || tab.parentElement;
+    parent.querySelectorAll('.region-sub-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    currentCalRegion = tab.dataset.rc;
+    renderAllCalendar();
+  });
+});
+
+// Month selector
+function navigateMonth(offset) {
+  var now = new Date();
+  var currentM = currentCalendarMonth !== null ? currentCalendarMonth : now.getMonth();
+  var targetM;
+  if (offset === 0) {
+    // "本月" - always jump to current month detail view
+    targetM = now.getMonth();
+  } else {
+    targetM = currentM + offset;
+    if (targetM < 0) targetM = 11;
+    if (targetM > 11) targetM = 0;
+  }
+  currentCalendarMonth = targetM;
+  var btns = document.querySelectorAll('.month-selector button');
+  btns.forEach(function(b) { b.classList.remove('active'); });
+  if (offset === -1) btns[0].classList.add('active');
+  else if (offset === 0) btns[1].classList.add('active');
+  else btns[2].classList.add('active');
+  renderCalendar(currentCalendarMonth);
+}
+
+document.querySelectorAll('.month-selector button').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    var offset = parseInt(btn.dataset.monthOffset);
+    navigateMonth(offset);
+  });
+});
+
+// =============================================
+// 渲染：今日熱點
+// =============================================
+function renderHotTopics() {
+  const data = DATA[currentHotRegion];
+  if (!data || !data.hotTopics) return;
+  const r1 = $('hotRegion1'), r2 = $('hotRegion2'), r3 = $('hotRegion3');
+  if (r1) r1.innerHTML = '<span class="flag">' + data.flag + '</span> ' + data.platformShort;
+  if (r2) r2.innerHTML = '<span class="flag">' + data.flag + '</span> SNS';
+  if (r3) r3.innerHTML = '<span class="flag">' + data.flag + '</span> 機會';
+  const gameIcons = {'どうぶつの森':'🏝️','ロウロウの郷':'🏘️','猫とスープ':'🐱','LINE POP':'💬','ねこレストラン':'🍽️','Project Makeover':'💄','Heartopia':'💗','The Sims Mobile':'💎','Stardew Valley':'🌾','Disney Magic':'🏰','Design Home':'🏠','Time Princess':'👑','Animal Crossing':'🍃','心動小鎮':'💕','桃園深處有人家':'🌸','閃耀暖暖':'✨','戀與深空':'💫','奇蹟暖暖':'🌟','食物語':'🍜','小森生活':'🌿','角落小夥伴':'🐻','江南百景圖':'🏯','貓咪咖啡廳':'☕'};
+  const c1 = $('hotContentTop5'); if(c1){c1.innerHTML='';
+  data.hotTopics.top5.forEach((item,i)=>{
+    const div=el('div',{class:'hot-item'});
+    const row=el('div',{style:{display:'flex',alignItems:'center',gap:'10px'}});
+    const icon=el('div',{class:'hot-game-icon'+(i<3?' top'+(i+1):'')},gameIcons[item.game]||'🎮');
+    const info=el('div',{class:'hot-game-info'});
+    info.appendChild(el('div',{class:'hot-game-name'},item.game,el('span',{class:'hot-game-rank'},'#'+(i+1))));
+    info.appendChild(el('div',{style:{fontSize:'12px',color:'var(--text-2)',margin:'2px 0'}},item.content));
+    info.appendChild(el('div',{class:'hot-item-meta'},'📊 '+item.engagement+(item.time?' · ⏱ '+item.time:'')));
+    if(item.link){info.appendChild(el('a',{class:'post-link',href:item.link,target:'_blank'},'🔗 查看原貼'));}
+    if(item.time){info.appendChild(el('span',{style:{fontSize:'10px',color:'var(--text-3)',marginLeft:'4px'}},'📅 '+item.time));}
+    row.appendChild(icon);row.appendChild(info);div.appendChild(row);c1.appendChild(div);
+  });}
+  const c2=$('hotTopics');if(c2){c2.innerHTML='';
+  data.hotTopics.trending.forEach(item=>{
+    c2.appendChild(el('div',{class:'trending-item'},
+      el('div',{class:'trending-hashtag'},'#'+item.tag),
+      el('div',{class:'trending-desc'},item.desc),
+      el('div',{class:'trending-vol'},'📈 討論量: '+item.volume)
+    ));
+  });}
+  const c3=$('hotOpportunities');if(c3){c3.innerHTML='';
+  data.hotTopics.opportunities.forEach(item=>{
+    const prio = item.priority==='高'?'high':'medium';
+    c3.appendChild(el('div',{class:'opp-item'},
+      el('div',{class:'opp-header'},
+        el('span',{class:'opp-priority '+prio},item.priority==='高'?'🔥 高優先':'📌 中優先'),
+        el('span',{class:'opp-tag'},item.tag)
+      ),
+      el('div',{class:'opp-desc'},item.desc),
+      item.type?el('span',{class:'opp-type'},'類型: '+item.type):null
+    ));
+  });}
+}
+
+function renderAllHot() {
+  renderHotTopics();
+}
+
+// =============================================
+// 渲染：競品卡片 + 社媒報告
+// =============================================
+function renderCompetitors() {
+  const data = DATA[currentRegion];
+  if (!data) return;
+
+  // Render comparison charts
+  renderComparisonCharts(data);
+
+  const grid = $('competitorGrid');
+  grid.innerHTML = '';
+
+  data.competitors.forEach(g => {
+    const card = el('div', { class: 'game-card', style: { '--card-stripe': g.cardStripe || 'var(--primary)' } });
+
+    // Game head (clickable)
+    const head = el('div', { class: 'game-head', onclick: () => {
+      const info = card.querySelector('.game-info-collapse');
+      info.classList.toggle('open');
+    } });
+
+    head.appendChild(el('div', { class: 'game-icon', style: { background: g.iconBg || 'var(--bg-soft)' } }, g.icon));
+
+    const titleWrap = el('div', { class: 'game-title-wrap' });
+    titleWrap.appendChild(el('div', { class: 'game-title' },
+      g.name,
+      el('span', { class: 'expand-hint' }, '\u25be')
+    ));
+    titleWrap.appendChild(el('div', { class: 'game-dev' }, g.developer + ' \u00b7 ' + g.gameplay));
+    head.appendChild(titleWrap);
+    head.appendChild(el('div', { class: 'game-launch' }, '\uD83D\uDE80 ' + g.launchDate + ' \u00b7 ' + g.age));
+
+    card.appendChild(head);
+
+    // Collapsible info section
+    const infoDiv = el('div', { class: 'game-info-collapse' });
+    infoDiv.appendChild(el('div', { class: 'game-meta' },
+      el('div', {},
+        el('div', { class: 'metric-label' }, '\u6708\u6D3B\u8E8D\u7528\u6237'),
+        el('div', { class: 'metric-value' }, g.market.mau.value,
+          el('span', { class: 'metric-delta', style: { color: g.market.mau.trend === 'up' ? 'var(--pos)' : 'var(--neg)', background: g.market.mau.trend === 'up' ? 'var(--pos-soft)' : 'var(--neg-soft)' } }, g.market.mau.delta)
+        )
+      ),
+      el('div', {},
+        el('div', { class: 'metric-label' }, '\u6708\u6D41\u6C34'),
+        el('div', { class: 'metric-value' }, g.market.revenue.value,
+          el('span', { class: 'metric-delta', style: { color: g.market.revenue.trend === 'up' ? 'var(--pos)' : 'var(--neg)', background: g.market.revenue.trend === 'up' ? 'var(--pos-soft)' : 'var(--neg-soft)' } }, g.market.revenue.delta)
+        )
+      )
+    ));
+
+    // Tags
+    const tagWrap = el('div', { style: { display: 'flex', gap: '6px', flexWrap: 'wrap', marginBottom: '10px' } });
+    g.tags.forEach(t => {
+      tagWrap.appendChild(el('span', { style: { padding: '2px 8px', borderRadius: '5px', fontSize: '11px', fontWeight: '500', background: 'var(--bg)', color: 'var(--text-2)' } }, t));
+    });
+    infoDiv.appendChild(tagWrap);
+
+    // Platform info
+    if (g.info) {
+      infoDiv.appendChild(el('div', { style: { fontSize: '11px', color: 'var(--text-3)', padding: '8px 0', borderTop: '1px solid var(--border-soft)' } },
+        '\u5E73\u53F0: ' + g.info.platform + ' \u00b7 \u767C\u884C: ' + g.info.publisher + ' \u00b7 \u898F\u6A21: ' + g.info.scale
+      ));
+    }
+
+    card.appendChild(infoDiv);
+
+    // Weekly summary preview
+    if (g.weekly) {
+      card.appendChild(el('div', { style: { marginTop: '10px', padding: '10px', background: 'var(--bg-soft)', borderRadius: '8px', fontSize: '12px', color: 'var(--text-2)', lineHeight: '1.5' } },
+        '\uD83D\uDCF0 ' + g.weekly.mainTopic
+      ));
+    }
+
+    grid.appendChild(card);
+  });
+
+  // Update count
+  const count = $('competitorCount');
+  if (count) count.textContent = data.competitors.length;
+}
+
+// Render comparison charts (revenue, dau, community)
+function renderComparisonCharts(data) {
+  if (!data.benchmark) return;
+  const bm = data.benchmark;
+
+  // Revenue chart
+  const revChart = $('revenueChart');
+  if (revChart) {
+    revChart.innerHTML = '';
+    let items = [];
+    if (bm.myGame && bm.myGame.market && bm.myGame.market.revenue.value !== '-') {
+      items.push({ label: '🔴 ' + bm.myGame.name, value: bm.myGame.market.revenue.value, cls: 'self' });
+    }
+    data.competitors.filter(c => c.market && c.market.revenue).forEach(c => {
+      items.push({ label: c.icon + ' ' + c.name, value: c.market.revenue.value, cls: 'competitor' });
+    });
+    // Parse CNY equivalent (values now unified to weekly units)
+    items = items.map(item => {
+      const raw = item.value;
+      const clean = raw.replace(/,/g, '');
+      const num = parseFloat(clean.replace(/[^0-9.]/g, '')) || 0;
+      let cny = '';
+      if (raw.includes('¥')) {
+        // Japanese Yen → CNY: 1 JPY ≈ 0.048 CNY
+        const isYi = raw.includes('億');
+        const val = isYi ? num * 10000 : num;
+        cny = '≈ ¥' + (val * 0.048).toFixed(0) + '萬';
+      } else if (raw.includes('HK$')) {
+        // HKD → CNY: 1 HKD ≈ 0.92 CNY
+        cny = '≈ ¥' + (num * 0.92).toFixed(0) + '萬';
+      } else if (raw.includes('$')) {
+        // USD → CNY: 1 USD ≈ 7.25 CNY
+        let val = num;
+        if (raw.includes('M')) val = num * 100;      // $3.7M → 370萬
+        else if (raw.includes('K')) val = num * 0.01; // $74K → 0.74萬
+        cny = '≈ ¥' + (val * 7.25).toFixed(1) + '萬';
+      }
+      return { ...item, cny: cny };
+    });
+    renderBarChart(revChart, items);
+  }
+
+  // DAU chart
+  const dauChart = $('dauChart');
+  if (dauChart) {
+    dauChart.innerHTML = '';
+    let items = [];
+    if (bm.myGame && bm.myGame.market && bm.myGame.market.mau.value !== '-') {
+      items.push({ label: '🔴 ' + bm.myGame.name, value: bm.myGame.market.mau.value, cls: 'self' });
+    }
+    data.competitors.filter(c => c.market && c.market.mau).forEach(c => {
+      items.push({ label: c.icon + ' ' + c.name, value: c.market.mau.value, cls: 'competitor' });
+    });
+    items = items.map(item => ({ ...item, cny: '' }));
+    renderBarChart(dauChart, items);
+  }
+
+  // Community engagement chart
+  const commChart = $('communityChart');
+  if (commChart) {
+    commChart.innerHTML = '';
+    let items = [];
+    if (bm.myGame && bm.myGame.community && bm.myGame.community.weekly_engagement !== '-') {
+      items.push({ label: '🔴 ' + bm.myGame.name, value: bm.myGame.community.weekly_engagement, cls: 'self' });
+    }
+    data.competitors.filter(c => c.weekly && c.weekly.engagement).forEach(c => {
+      const likes = c.weekly.engagement.likes || 0;
+      const val = likes >= 10000 ? (likes / 10000).toFixed(1) + '萬/週' : likes.toLocaleString() + '/週';
+      items.push({ label: c.icon + ' ' + c.name, value: val, cls: 'competitor' });
+    });
+    items = items.map(item => ({ ...item, cny: '' }));
+    renderBarChart(commChart, items);
+  }
+
+  // Social media exposure chart (weekly post impressions)
+  const expChart = $('exposureChart');
+  if (expChart) {
+    expChart.innerHTML = '';
+    let items = [];
+    // For our game: check benchmark for exposure data, or compute from engagement
+    if (bm.myGame && bm.myGame.community && bm.myGame.community.weekly_engagement !== '-') {
+      const engStr = bm.myGame.community.weekly_engagement;
+      const engNum = parseFloat(engStr.replace(/[^0-9.]/g, '')) || 0;
+      // Estimate exposure = engagement × 20 (conservative multiplier for social media)
+      const expVal = (engNum * 20).toFixed(1) + '萬/週';
+      items.push({ label: '🔴 ' + bm.myGame.name, value: expVal, cls: 'self' });
+    }
+    data.competitors.filter(c => c.weekly && c.weekly.engagement).forEach(c => {
+      const eng = c.weekly.engagement;
+      const total = (eng.likes || 0) + (eng.comments || 0) + (eng.shares || 0) + (eng.saves || 0);
+      // Estimate weekly exposure = total engagement × 20
+      const expEstimate = total * 20;
+      const val = expEstimate >= 10000 ? (expEstimate / 10000).toFixed(1) + '萬/週' : expEstimate.toLocaleString() + '/週';
+      items.push({ label: c.icon + ' ' + c.name, value: val, cls: 'competitor' });
+    });
+    items = items.map(item => ({ ...item, cny: '' }));
+    renderBarChart(expChart, items);
+  }
+}
+
+// Render a bar chart with proportional widths - aligned bars
+function renderBarChart(container, items) {
+  if (items.length === 0) {
+    container.appendChild(el('div', { style: { fontSize: '12px', color: 'var(--text-3)', padding: '8px' } }, '暫無數據'));
+    return;
+  }
+  // Sort high to low - handle all formats (commas, M, 萬, 億)
+  items.sort((a, b) => {
+    const getNum = (v) => {
+      let s = (v || '').replace(/,/g, ''); // remove commas
+      let mult = 1;
+      if (s.includes('M')) { mult = 10000; s = s.replace('M', ''); } // $3.7M → 3.7 * 10000 = 37000萬
+      if (s.includes('K')) { mult = 0.1; s = s.replace('K', ''); }   // $74K → 74 * 0.1 = 7.4萬
+      const num = parseFloat(s.replace(/[^0-9.]/g, '')) || 0;
+      const unit = s.includes('億') ? 10000 : s.includes('萬') ? 1 : 0.01;
+      return num * unit * mult;
+    };
+    return getNum(b.value) - getNum(a.value);
+  });
+  // Max value for proportional widths
+  const maxNum = Math.max(...items.map(item => {
+    let s = (item.value || '').replace(/,/g, '');
+    let mult = 1;
+    if (s.includes('M')) { mult = 10000; s = s.replace('M', ''); }
+    if (s.includes('K')) { mult = 0.1; s = s.replace('K', ''); }
+    const num = parseFloat(s.replace(/[^0-9.]/g, '')) || 0;
+    const unit = s.includes('億') ? 10000 : s.includes('萬') ? 1 : 0.01;
+    return num * unit * mult;
+  }));
+  items.forEach(item => {
+    let s = (item.value || '').replace(/,/g, '');
+    let mult = 1;
+    if (s.includes('M')) { mult = 10000; s = s.replace('M', ''); }
+    if (s.includes('K')) { mult = 0.1; s = s.replace('K', ''); }
+    const num = parseFloat(s.replace(/[^0-9.]/g, '')) || 0;
+    const unit = s.includes('億') ? 10000 : s.includes('萬') ? 1 : 0.01;
+    const barWidth = maxNum > 0 ? Math.max(Math.round(((num * unit * mult) / maxNum) * 100), 3) : 5;
+    const row = el('div', { class: 'chart-bar-row' });
+    const label = el('div', { class: 'chart-bar-label' }, item.label);
+    const trackWrap = el('div', { class: 'chart-bar-track-wrapper' });
+    const track = el('div', { class: 'chart-bar-track' },
+      el('div', { class: 'chart-bar-fill ' + item.cls, style: { width: barWidth + '%' } })
+    );
+    trackWrap.appendChild(track);
+    const valDiv = el('div', { class: 'chart-bar-value' });
+    valDiv.appendChild(el('span', {}, item.value));
+    if (item.cny) valDiv.appendChild(el('span', { class: 'chart-bar-cny' }, item.cny));
+    const bar = el('div', { class: 'chart-bar' }, label, trackWrap, valDiv);
+    row.appendChild(bar);
+    container.appendChild(row);
+  });
+}
+
+function makeBar(label, value, cls) {
+  const row = el('div', { class: 'chart-bar-row' });
+  row.appendChild(el('div', { class: 'chart-bar-label' }, label));
+  const track = el('div', { class: 'chart-bar-track' });
+  const fill = el('div', { class: 'chart-bar-fill ' + cls, style: { width: value + '%' } }, value + '');
+  track.appendChild(fill);
+  row.appendChild(track);
+  row.appendChild(el('div', { class: 'chart-bar-value' }, value + ''));
+  return row;
+}
+function renderReports() {
+  const data = DATA[currentRegion];
+  if (!data) return;
+
+  const grid = $('reportGrid');
+  grid.innerHTML = '';
+
+  data.competitors.forEach(g => {
+    if (!g.weekly) return;
+    const w = g.weekly;
+
+    const card = el('div', { class: 'report-card' });
+    const header = el('div', { class: 'report-card-header', onclick: () => card.classList.toggle('open') });
+
+    header.appendChild(el('div', { class: 'report-card-icon', style: { background: g.iconBg || 'var(--bg-soft)' } }, g.icon));
+    header.appendChild(el('div', { class: 'report-card-title' },
+      el('div', { class: 'report-card-name' }, g.name,
+        el('span', { class: 'platform-tag' }, data.platformShort)
+      ),
+      el('div', { class: 'report-card-meta' },
+        '📝 ' + w.posts + ' 篇貼文 · ⏱ ' + (w.mainTopic ? w.mainTopic.substring(0, 20) + '...' : '')
+      )
+    ));
+    header.appendChild(el('div', { class: 'report-card-arrow' }, '▾'));
+
+    card.appendChild(header);
+
+    // Body
+    const body = el('div', { class: 'report-card-body' });
+    const inner = el('div', { class: 'report-card-inner' });
+
+    // Main topic
+    inner.appendChild(el('div', { class: 'report-block' },
+      el('div', { class: 'report-label' }, el('span', { class: 'ic' }, '📰'), '本週主打社媒活動'),
+      el('div', { style: { fontSize: '14px', fontWeight: '600', color: 'var(--text)', lineHeight: '1.6', padding: '8px 12px', background: 'var(--bg)', borderRadius: '8px', borderLeft: '3px solid var(--primary)' } }, w.mainTopic)
+    ));
+
+    // Engagement
+    if (w.engagement) {
+      const eng = w.engagement;
+      const eGrid = el('div', { class: 'engagement-grid' },
+        el('div', { class: 'eng-item' }, el('div', { class: 'eng-value' }, (eng.likes||0).toLocaleString()), el('div', { class: 'eng-label' }, '❤️ 讚')),
+        el('div', { class: 'eng-item' }, el('div', { class: 'eng-value' }, (eng.comments||0).toLocaleString()), el('div', { class: 'eng-label' }, '💬 留言')),
+        el('div', { class: 'eng-item' }, el('div', { class: 'eng-value' }, (eng.shares||0).toLocaleString()), el('div', { class: 'eng-label' }, '🔄 分享')),
+        el('div', { class: 'eng-item' }, el('div', { class: 'eng-value' }, (eng.saves||0).toLocaleString()), el('div', { class: 'eng-label' }, '📌 收藏'))
+      );
+      inner.appendChild(el('div', { class: 'report-block' },
+        el('div', { class: 'report-label' }, el('span', { class: 'ic' }, '📊'), '📊 貼文互動數據'),
+        eGrid
+      ));
+    }
+
+    // Sentiment
+    if (w.sentiment) {
+      const s = w.sentiment;
+      inner.appendChild(el('div', { class: 'report-block' },
+        el('div', { class: 'report-label' }, el('span', { class: 'ic' }, '🎭'), '🎭 玩家情緒'),
+        el('div', { class: 'sentiment-bar' },
+          el('div', { class: 'seg', style: { width: s.positive + '%', background: 'var(--pos)' } }),
+          el('div', { class: 'seg', style: { width: s.neutral + '%', background: 'var(--neu)' } }),
+          el('div', { class: 'seg', style: { width: s.negative + '%', background: 'var(--neg)' } })
+        ),
+        el('div', { style: { display: 'flex', gap: '12px', fontSize: '11px', marginTop: '4px' } },
+          el('span', { style: { color: 'var(--pos)' } }, '😊 正面 ' + s.positive + '%'),
+          el('span', { style: { color: 'var(--text-3)' } }, '😐 中性 ' + s.neutral + '%'),
+          el('span', { style: { color: 'var(--neg)' } }, '😞 負面 ' + s.negative + '%')
+        )
+      ));
+    }
+
+    // Top quote
+    if (w.topQuote) {
+      inner.appendChild(el('div', { class: 'report-block' },
+        el('div', { class: 'report-label' }, el('span', { class: 'ic' }, '💭'), '🔥 本週社媒熱點話題'),
+        el('div', { class: 'top-quote' }, '"' + w.topQuote + '"')
+      ));
+    }
+
+    // Summary - FIX: use innerHTML for HTML content
+    if (w.summary) {
+      inner.appendChild(el('div', { class: 'report-block' },
+        el('div', { class: 'report-label' }, el('span', { class: 'ic' }, '📈'), '🔍 本週重點社媒活動/內容回顧'),
+        htmlEl('div', { class: 'report-content' }, w.summary)
+      ));
+    }
+
+    // Advice - already uses innerHTML
+    if (w.advice && w.advice.length > 0) {
+      inner.appendChild(el('div', { class: 'report-block' },
+        el('div', { class: 'report-label' }, el('span', { class: 'ic' }, '💡'), '🎯 對社媒/行銷策劃的建議'),
+        el('ul', { class: 'advice-list' },
+          ...w.advice.map(a => { const li = el('li', {}); li.innerHTML = a; return li; })
+        )
+      ));
+    }
+
+    body.appendChild(inner);
+    card.appendChild(body);
+    grid.appendChild(card);
+  });
+}
+
+function renderAllCompetitors() {
+  renderCompetitors();
+  renderReports();
+}
+
+// =============================================
+// 渲染：營銷日曆
+// =============================================
+function renderCalendar(goToMonth) {
+  const data = DATA[currentCalRegion];
+  if (!data) return;
+
+  const card = $('calendarCard');
+  card.innerHTML = '';
+
+  const todayDate = new Date();
+  const year = todayDate.getFullYear();
+  
+  // If goToMonth is provided, show month detail view
+  if (goToMonth !== undefined && goToMonth !== null) {
+    renderMonthDetailView(card, data, year, goToMonth, todayDate);
+    return;
+  }
+
+  // ----- Year Overview: 12 Month Cards -----
+  const head = el('div', { class: 'calendar-head' },
+    el('div', { class: 'calendar-month' }, data.flag + ' ' + year + '\u5E74\u00B7' + data.region + ' \u5168\u5E74\u71DF\u92B7\u65E5\u66C6'),
+    el('div', { class: 'calendar-nav' },
+      el('span', { class: 'calendar-nav-display' }, String(year))
+    )
+  );
+  card.appendChild(head);
+
+  const yearGrid = el('div', { class: 'calendar-year-grid' });
+  const monthNames = ['1\u6708','2\u6708','3\u6708','4\u6708','5\u6708','6\u6708','7\u6708','8\u6708','9\u6708','10\u6708','11\u6708','12\u6708'];
+  const allEvents = (data.calendar || []);
+
+  for (let m = 0; m < 12; m++) {
+    const monthEvents = allEvents.filter((e) => {
+      const em = Math.floor((e.date % 10000) / 100);
+      return em === (m + 1);
+    });
+    const highCount = monthEvents.filter((e) => e.level === 'high').length;
+    const medCount = monthEvents.filter((e) => e.level === 'medium').length;
+    const lowCount = monthEvents.filter((e) => e.level === 'low').length;
+    const topics = monthEvents.slice(0, 3).map((e) => e.name).filter(Boolean);
+
+    const monthCard = el('div', {
+      class: 'calendar-year-card' + (m === todayDate.getMonth() ? ' active' : ''),
+      onclick: (function(mm) { return function() { renderCalendar(mm); }; })(m)
+    },
+      el('div', { class: 'calendar-year-month' },
+        monthNames[m],
+        el('span', { class: 'calendar-year-count' }, String(monthEvents.length) + ' \u500B\u7BC0\u9EDE')
+      ),
+      monthEvents.length > 0 ? el('div', { class: 'calendar-year-dots' },
+        Array(highCount).fill(null).map(() => el('span', { class: 'calendar-year-dot high' })),
+        Array(medCount).fill(null).map(() => el('span', { class: 'calendar-year-dot medium' })),
+        Array(lowCount).fill(null).map(() => el('span', { class: 'calendar-year-dot low' }))
+      ) : el('div', { style: { fontSize: '10px', color: 'var(--text-3)', marginTop: '4px' } }, '\u6682\u7121\u7BC0\u9EDE'),
+      topics.length > 0 ? el('div', { class: 'calendar-year-topics' }, topics.join(' \u00B7 ')) : null
+    );
+    yearGrid.appendChild(monthCard);
+  }
+  card.appendChild(yearGrid);
+
+  // Legend
+  const legend = el('div', { class: 'calendar-legend' },
+    el('div', { class: 'calendar-legend-item' },
+      el('span', { class: 'calendar-legend-dot', style: { background: 'var(--neg)' } }), '\U0001F534 \u9AD8\u512A\u5148\uFF1A\u7576\u9031\u5FC5\u8DDF\u7BC0\u9EDE'
+    ),
+    el('div', { class: 'calendar-legend-item' },
+      el('span', { class: 'calendar-legend-dot', style: { background: 'var(--warn)' } }), '\U0001F7E1 \u4E2D\u512A\u5148\uFF1A\u53EF\u9078\u6D3B\u52D5\u7D20\u6750'
+    ),
+    el('div', { class: 'calendar-legend-item' },
+      el('span', { class: 'calendar-legend-dot', style: { background: 'var(--pos)' } }), '\U0001F7E2 \u4F4E\u512A\u5148\uFF1A\u89C0\u671B\u6216\u5FAE\u8ABF'
+    ),
+    el('div', { class: 'calendar-legend-item' },
+      el('span', { style: { fontSize: '10px', color: 'var(--text-3)' } }), '\U0001F4A1 \u9EDE\u64CA\u6708\u4EFD\u5361\u7247\u67E5\u770B\u8A73\u7D30\u65E5\u66C6'
+    )
+  );
+  card.appendChild(legend);
+}
+
+// Render detailed month view
+function renderMonthDetailView(card, data, year, month, todayDate) {
+  const monthNames = ['1\u6708','2\u6708','3\u6708','4\u6708','5\u6708','6\u6708','7\u6708','8\u6708','9\u6708','10\u6708','11\u6708','12\u6708'];
+  const allEvents = (data.calendar || []);
+
+  const head = el('div', { class: 'calendar-head' },
+    el('div', { class: 'calendar-month' },
+      el('span', { style: { cursor: 'pointer', fontSize: '14px', marginRight: '8px' }, onclick: () => renderCalendar() }, '\u2039 \u8FD4\u56DE\u5168\u5E74'),
+      data.flag + ' ' + year + '\u5E74 ' + monthNames[month] + ' \u00B7 ' + data.region + ' \u71DF\u92B7\u65E5\u66C6'
+    ),
+    el('div', { class: 'calendar-nav' },
+      el('button', { onclick: () => renderCalendar(month > 0 ? month - 1 : 11) }, '\u2039'),
+      el('span', { class: 'calendar-nav-display' }, monthNames[month]),
+      el('button', { onclick: () => renderCalendar(month < 11 ? month + 1 : 0) }, '\u203A')
+    )
+  );
+  card.appendChild(head);
+
+  const weekdays = el('div', { class: 'calendar-weekdays' },
+    ['\u65E5','\u4E00','\u4E8C','\u4E09','\u56DB','\u4E94','\u516D'].map((d) => el('div', {}, d))
+  );
+  card.appendChild(weekdays);
+
+  const grid = el('div', { class: 'calendar-grid' });
+  const firstDay = new Date(year, month, 1).getDay();
+  const lastDate = new Date(year, month + 1, 0).getDate();
+
+  for (let i = 0; i < firstDay; i++) {
+    grid.appendChild(el('div', { class: 'calendar-day empty' }));
+  }
+
+  for (let d = 1; d <= lastDate; d++) {
+    const dateNum = year * 10000 + (month + 1) * 100 + d;
+    const events = allEvents.filter((e) => e.date === dateNum);
+    const isWeekend = (firstDay + d - 1) % 7 === 0 || (firstDay + d - 1) % 7 === 6;
+    const isToday = d === todayDate.getDate() && month === todayDate.getMonth();
+
+    const dayCell = el('div', { class: 'calendar-day' + (isWeekend ? ' weekend' : '') + (isToday ? ' today' : ''), ondblclick: () => openCalendarEditor() },
+      el('div', { class: 'dnum' }, String(d)),
+      events.map((e) => {
+        const evDiv = el('div', { class: 'calendar-event ' + e.level, title: e.note || '' });
+        evDiv.appendChild(el('div', { style: { fontWeight: '700', fontSize: '12px' } }, e.name));
+        if (e.note) {
+          const tags = (e.note.match(/#[\w\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FFF]+/g) || []).slice(0, 2);
+          if (tags.length > 0) {
+            const tagDiv = el('div', { class: 'event-hashtags' });
+            tags.forEach((t) => tagDiv.appendChild(el('span', { class: 'event-hashtag' }, t)));
+            evDiv.appendChild(tagDiv);
+          }
+        }
+        return evDiv;
+      })
+    );
+    grid.appendChild(dayCell);
+  }
+
+  card.appendChild(grid);
+
+  // Legend
+  const legend = el('div', { class: 'calendar-legend' },
+    el('div', { class: 'calendar-legend-item' },
+      el('span', { class: 'calendar-legend-dot', style: { background: 'var(--neg)' } }), '\U0001F534 \u9AD8\u512A\u5148\uFF1A\u7576\u9031\u5FC5\u8DDF\u7BC0\u9EDE'
+    ),
+    el('div', { class: 'calendar-legend-item' },
+      el('span', { class: 'calendar-legend-dot', style: { background: 'var(--warn)' } }), '\U0001F7E1 \u4E2D\u512A\u5148\uFF1A\u53EF\u9078\u6D3B\u52D5\u7D20\u6750'
+    ),
+    el('div', { class: 'calendar-legend-item' },
+      el('span', { class: 'calendar-legend-dot', style: { background: 'var(--pos)' } }), '\U0001F7E2 \u4F4E\u512A\u5148\uFF1A\u89C0\u671B\u6216\u5FAE\u8ABF'
+    ),
+    el('div', { class: 'calendar-legend-item' },
+      el('span', { style: { fontSize: '10px', color: 'var(--text-3)' } }), '\U0001F4A1 \u9EDE\u64CA\u6708\u4EFD\u5361\u7247\u67E5\u770B\u8A73\u7D30\u65E5\u66C6'
+    )
+  );
+  card.appendChild(legend);
+}
+
+// Render next week predictions
+function renderNextWeek() {
+  const data = DATA[currentCalRegion];
+  if (!data) return;
+  var titleEl = $('nextWeekTitle');
+  var c = $('nextWeekContent');
+  if (!c) return;
+  c.innerHTML = '';
+  
+  var now = new Date();
+  var currentMonth = now.getMonth();
+  var viewingMonth = (currentCalendarMonth !== null) ? currentCalendarMonth : currentMonth;
+  
+  if (viewingMonth === currentMonth) {
+    if (titleEl) titleEl.textContent = '\U0001F4CB \u4E0B\u5468\u8425\u9500\u8282\u70B9\u9884\u6D4B & \u6D3B\u52A8\u5EFA\u8BAE';
+    if (!data.nextWeek) {
+      c.appendChild(el('div', { style: { fontSize: '12px', color: 'var(--text-3)' } }, '\u6682\u7121\u4E0B\u5468\u9884\u6D4B\u8D44\u6599'));
+      return;
+    }
+    data.nextWeek.forEach(function(item) {
+      c.appendChild(el('div', { class: 'nw-item' },
+        el('span', { class: 'nw-badge ' + item.type }, item.label),
+        el('div', { class: 'nw-content' }, item.content)
+      ));
+    });
+  } else {
+    var monthNames = ['1\u6708','2\u6708','3\u6708','4\u6708','5\u6708','6\u6708','7\u6708','8\u6708','9\u6708','10\u6708','11\u6708','12\u6708'];
+    if (titleEl) titleEl.textContent = '\U0001F4CB ' + monthNames[viewingMonth] + '\u8425\u9500\u70ED\u70B9\u9884\u6D4B & \u5185\u5BB9\u5EFA\u8BAE';
+    
+    var allEvents = (data.calendar || []);
+    var monthEvents = allEvents.filter(function(e) {
+      var em = Math.floor((e.date % 10000) / 100);
+      return em === (viewingMonth + 1);
+    });
+    
+    if (monthEvents.length === 0) {
+      c.appendChild(el('div', { style: { fontSize: '12px', color: 'var(--text-3)' } }, monthNames[viewingMonth] + '\u6682\u7121\u8425\u9500\u8282\u70B9'));
+      return;
+    }
+    
+    var highEvents = monthEvents.filter(function(e) { return e.level === 'high'; });
+    var medEvents = monthEvents.filter(function(e) { return e.level === 'medium'; });
+    
+    if (highEvents.length > 0) {
+      c.appendChild(el('div', { style: { fontSize: '12px', fontWeight: '600', color: 'var(--neg)', marginBottom: '8px' } },
+        '\U0001F534 \u672C\u6708\u91CD\u9EDE\u8425\u9500\u8282\u70B9 (' + String(highEvents.length) + '\u500B)'
+      ));
+      highEvents.forEach(function(e) {
+        var dayStr = String(e.date).slice(6, 8);
+        c.appendChild(el('div', { class: 'nw-item' },
+          el('span', { class: 'nw-badge holiday', style: { background: 'var(--neg-soft)', color: 'var(--neg)' } }, dayStr + '\u65E5'),
+          el('div', { class: 'nw-content' }, e.name)
+        ));
+      });
+    }
+    
+    if (medEvents.length > 0) {
+      c.appendChild(el('div', { style: { fontSize: '12px', fontWeight: '600', color: 'var(--warn)', marginBottom: '8px', marginTop: '8px' } },
+        '\U0001F7E1 \u53EF\u9009\u6D3B\u52A8\u7D20\u6750 (' + String(medEvents.length) + '\u500B)'
+      ));
+      medEvents.forEach(function(e) {
+        var dayStr = String(e.date).slice(6, 8);
+        c.appendChild(el('div', { class: 'nw-item' },
+          el('span', { class: 'nw-badge topic', style: { background: 'var(--warn-soft)', color: 'var(--warn)' } }, dayStr + '\u65E5'),
+          el('div', { class: 'nw-content' }, e.name)
+        ));
+      });
+    }
+    
+    c.appendChild(el('div', { style: { fontSize: '12px', color: 'var(--text-2)', marginTop: '8px', padding: '8px', background: 'var(--bg)', borderRadius: '8px' } },
+      '\U0001F4A1 \u5EFA\u8BAE\uFF1A\u53EF\u5728 ' + monthNames[viewingMonth] + ' \u56F4\u7ED5\u4EE5\u4E0A\u8282\u70B9\u63D0\u524D\u89C4\u5212\u793E\u5A92\u5185\u5BB9\uFF0C\u9884\u70ED\u671F\u81F3\u5C11\u63D0\u524D1\u9031\u5F00\u59CB\u5BA3\u4F20'
+    ));
+  }
+}
+
+// Render risk alerts
+function renderRisks() {
+  const data = DATA[currentCalRegion];
+  if (!data) return;
+  const c = $('riskContent');
+  if (!c) return;
+  c.innerHTML = '';
+  if (!data.risks || data.risks.length === 0) {
+    c.appendChild(el('div', { style: { fontSize: '12px', color: 'var(--text-3)' } }, '暫無風險預警資訊'));
+    return;
+  }
+  data.risks.forEach(r => {
+    c.appendChild(el('div', { class: 'risk-item' },
+      el('span', { class: 'risk-dot ' + (r.level === 'high' ? 'high' : r.level === 'medium' ? 'medium' : 'low') }),
+      el('div', {},
+        el('div', { class: 'risk-header' }, r.level === 'high' ? '🔴 高風險' : r.level === 'medium' ? '🟡 中風險' : '🟢 低風險'),
+        el('div', { class: 'risk-text' }, r.content)
+      )
+    ));
+  });
+
+  // Check for competitor negative PR events
+  if (data.competitors) {
+    var negPRItems = [];
+    data.competitors.forEach(function(comp) {
+      if (comp.weekly && comp.weekly.engagement) {
+        var negRatio = comp.weekly.sentiment ? comp.weekly.sentiment.negative : 0;
+        if (negRatio > 15) {
+          negPRItems.push({
+            level: 'medium',
+            content: '【競品负面舆情】' + comp.name + ' 近期负面情绪比例达 ' + negRatio + '%，可能與端內活動或運營問題有關。建議密切關注並提前準备應對策略'
+          });
+        }
+      }
+    });
+    
+    if (negPRItems.length > 0) {
+      var negSection = el('div', { style: { marginBottom: '12px', borderTop: '2px solid var(--neg-soft)', paddingTop: '8px', marginTop: '8px' } });
+      negSection.appendChild(el('div', { style: { fontSize: '12px', fontWeight: '600', color: 'var(--neg)', marginBottom: '6px', padding: '0 4px' } },
+        '\U0001F534 競品负面舆情监渫 (' + String(negPRItems.length) + ')'
+      ));
+      negPRItems.forEach(function(r) {
+        var riskItem = el('div', { class: 'risk-item' },
+          el('span', { class: 'risk-dot medium' }),
+          el('div', { style: { flex: 1 } },
+            el('div', { class: 'risk-header' },
+              el('span', { class: 'risk-category-badge risk-cat-competitor' }, '\U0001F7E1 负面舆情'),
+              r.content
+            )
+          )
+        );
+        negSection.appendChild(riskItem);
+      });
+      c.appendChild(negSection);
+    }
+  }
+
+}
+
+function renderAllCalendar() {
+  if (currentCalendarMonth !== null) {
+    renderCalendar(currentCalendarMonth);
+  } else {
+    renderCalendar();
+  }
+  renderNextWeek();
+  renderRisks();
+}
+
+// =============================================
+// Action handlers
+// =============================================
+function refreshHotTopics() {
+  renderAllHot();
+  alert('今日熱點已重新整理！(Mock 資料)');
+}
+
+function syncCalendar() {
+  alert('已同步至行事曆！(Mock 功能)');
+}
+
+function exportCSV() {
+  alert('CSV 匯出功能 (Mock 功能)');
+}
+
+// =============================================
+
+// =============================================
+// 营销日历 - 手动编辑功能
+// =============================================
+const CAL_STORAGE_KEY = 'cal_edited_events';
+
+// 获取 localStorage 中某个地区的编辑后事件
+function getEditedEvents(region) {
+  try {
+    const all = JSON.parse(localStorage.getItem(CAL_STORAGE_KEY) || '{}');
+    return all[region] || [];
+  } catch(e) { return []; }
+}
+
+// 保存某个地区的编辑后事件到 localStorage
+function setEditedEvents(region, events) {
+  try {
+    const all = JSON.parse(localStorage.getItem(CAL_STORAGE_KEY) || '{}');
+    all[region] = events;
+    localStorage.setItem(CAL_STORAGE_KEY, JSON.stringify(all));
+  } catch(e) {}
+}
+
+// 获取合并后的事件列表: DATA事件 + 自定义事件 (自定义优先)
+function getMergedCalendar(region) {
+  const data = DATA[region];
+  if (!data || !data.calendar) return [];
+  const base = data.calendar;
+  const edited = getEditedEvents(region);
+  // 自定义事件覆盖: 同日期同名称则覆盖
+  const merged = [...base];
+  edited.forEach(ev => {
+    const idx = merged.findIndex(e => e.date === ev.date && e.name === ev.name);
+    if (idx >= 0) {
+      merged[idx] = ev;
+    } else {
+      merged.push(ev);
+    }
+  });
+  return merged;
+}
+
+// 打开日历编辑器
+let editingCalEvent = null;
+
+function openCalendarEditor() {
+  const region = currentCalRegion || 'jp';
+  const data = DATA[region];
+  if (!data) return alert('请先选择地区');
+  
+  const modal = document.getElementById('calendarModal');
+  const regLabel = document.getElementById('calEditRegion');
+  if (regLabel) regLabel.textContent = data.flag + ' ' + data.region;
+  
+  editingCalEvent = null;
+  renderCalEventList(region);
+  resetCalForm();
+  
+  modal.classList.add('open');
+}
+
+function closeCalendarEditor() {
+  document.getElementById('calendarModal').classList.remove('open');
+  editingCalEvent = null;
+}
+
+function renderCalEventList(region) {
+  const list = document.getElementById('calEventList');
+  const count = document.getElementById('calEventCount');
+  const noEvents = document.getElementById('calNoEvents');
+  if (!list) return;
+  
+  const events = getEditedEvents(region);
+  list.innerHTML = '';
+  if (count) count.textContent = events.length;
+  if (noEvents) noEvents.style.display = events.length > 0 ? 'none' : 'block';
+  
+  events.sort((a, b) => a.date - b.date);
+  events.forEach((ev, idx) => {
+    const month = String(ev.date).slice(4, 6);
+    const day = String(ev.date).slice(6, 8);
+    const li = document.createElement('li');
+    li.className = 'event-list-item';
+    li.innerHTML = '<div class="event-list-date">' + month + '/' + day + '</div>' +
+      '<div class="event-list-name">' + ev.name + '</div>' +
+      '<div class="event-list-level ' + ev.level + '">' + 
+        (ev.level === 'high' ? '高' : ev.level === 'medium' ? '中' : '低') + 
+      '</div>' +
+      '<div class="event-list-actions">' +
+        '<button class="edit-btn" onclick="editCalEvent(' + idx + ')" title="编辑">✏️</button>' +
+        '<button class="del-btn" onclick="deleteCalEvent(' + idx + ')" title="删除">🗑️</button>' +
+      '</div>';
+    list.appendChild(li);
+  });
+}
+
+function resetCalForm() {
+  document.getElementById('calEventName').value = '';
+  document.getElementById('calEventDate').value = '';
+  document.getElementById('calEventLevel').value = 'high';
+  document.getElementById('calEventNote').value = '';
+  editingCalEvent = null;
+}
+
+function addNewCalEvent() {
+  editingCalEvent = null;
+  resetCalForm();
+  document.getElementById('calEventDate').focus();
+}
+
+function editCalEvent(idx) {
+  const region = currentCalRegion || 'jp';
+  const events = getEditedEvents(region);
+  const ev = events[idx];
+  if (!ev) return;
+  editingCalEvent = idx;
+  document.getElementById('calEventName').value = ev.name || '';
+  document.getElementById('calEventDate').value = String(ev.date).slice(6, 8) + String(ev.date).slice(4, 6);
+  document.getElementById('calEventLevel').value = ev.level || 'high';
+  document.getElementById('calEventNote').value = ev.note || '';
+}
+
+function cancelEditEvent() {
+  resetCalForm();
+}
+
+function deleteCalEvent(idx) {
+  const region = currentCalRegion || 'jp';
+  let events = getEditedEvents(region);
+  events.splice(idx, 1);
+  setEditedEvents(region, events);
+  renderCalEventList(region);
+  // 重新渲染日历
+  renderAllCalendar();
+}
+
+function saveCalEvent() {
+  const region = currentCalRegion || 'jp';
+  const name = document.getElementById('calEventName').value.trim();
+  const dateStr = document.getElementById('calEventDate').value.trim();
+  const level = document.getElementById('calEventLevel').value;
+  const note = document.getElementById('calEventNote').value.trim();
+  
+  if (!name) { alert('请输入事件名称'); return; }
+  if (!dateStr) { alert('请输入日期'); return; }
+  
+  // 解析日期 (MMDD 或 MMDD)
+  let month, day;
+  if (dateStr.length === 4) {
+    month = dateStr.slice(0, 2);
+    day = dateStr.slice(2, 4);
+  } else if (dateStr.length === 3) {
+    month = '0' + dateStr.slice(0, 1);
+    day = dateStr.slice(1, 3);
+  } else {
+    alert('日期格式错误，请使用 MMDD 格式（如 0722）');
+    return;
+  }
+  
+  const now = new Date();
+  const year = now.getFullYear();
+  const dateNum = year * 10000 + parseInt(month) * 100 + parseInt(day);
+  
+  let events = getEditedEvents(region);
+  const newEvent = { date: dateNum, name, level, note };
+  
+  if (editingCalEvent !== null && editingCalEvent >= 0) {
+    events[editingCalEvent] = newEvent;
+  } else {
+    events.push(newEvent);
+  }
+  
+  setEditedEvents(region, events);
+  resetCalForm();
+  renderCalEventList(region);
+  // 重新渲染日历
+  renderAllCalendar();
+}
+
+// 覆盖原有的 renderCalendar 函数以使用合并后的事件
+const originalRenderCalendar = renderCalendar;
+renderCalendar = function(goToMonth) {
+  const data = DATA[currentCalRegion];
+  if (!data) return;
+  
+  // 临时替换 data.calendar 为合并后的事件
+  const originalCal = data.calendar;
+  data.calendar = getMergedCalendar(currentCalRegion);
+  
+  originalRenderCalendar(goToMonth);
+  
+  // 恢复原始 data.calendar
+  data.calendar = originalCal;
+};
+
+// =============================================
+// 热点 - 统一过去48小时时间周期
+// =============================================
+// 包装 renderHotTopics 以过滤过去48小时的帖子
+const originalRenderHotTopics = renderHotTopics;
+renderHotTopics = function() {
+  const data = DATA[currentHotRegion];
+  if (!data || !data.hotTopics) return;
+  
+  // 计算48小时前的时间戳
+  const fortyEightHoursAgo = new Date();
+  fortyEightHoursAgo.setHours(fortyEightHoursAgo.getHours() - 48);
+  const cutoff = fortyEightHoursAgo.getTime();
+  
+  // 过滤 top5 中过去48小时的帖子
+  const filteredTop5 = data.hotTopics.top5.filter(item => {
+    if (!item.time) return true;
+    // 支持多种日期格式: "2026-07-19", "2026/07/19", "2026-07-17T10:30:00"
+    const timeStr = item.time.replace(/\//g, '-');
+    // 如果是纯日期格式(YYYY-MM-DD)，转为当日0点时间戳
+    const dateObj = timeStr.length <= 10 ? new Date(timeStr + 'T00:00:00') : new Date(timeStr);
+    return dateObj.getTime() >= cutoff;
+  });
+  
+  // 过滤后的 top5 重新编号
+  const displayTop5 = filteredTop5.length > 0 ? filteredTop5.slice(0, 5).map((item, i) => ({...item, rank: i + 1})) : data.hotTopics.top5.slice(0, 5).map((item, i) => ({...item, rank: i + 1}));
+  
+  // 保存原始数据并替换
+  const originalTop5 = data.hotTopics.top5;
+  data.hotTopics.top5 = displayTop5;
+  
+  // 调用原始渲染函数
+  originalRenderHotTopics();
+  
+  // 恢复原始数据
+  data.hotTopics.top5 = originalTop5;
+  
+  // 添加"过去48小时"标签
+  const periodBadge = document.createElement('div');
+  periodBadge.style.cssText = 'text-align:right;font-size:11px;color:var(--text-3);padding:8px 4px 0';
+  const totalItems = filteredTop5.length;
+  const badgeText = data.hotTopics.top5.length + '条热门 · 过去48小时';
+  
+  // 在 top5 卡片头部加时间标识
+  const top5Card = document.querySelector('.hot-card:first-child .hot-card-head');
+  if (top5Card) {
+    const existing = top5Card.querySelector('.hot-period-badge');
+    if (existing) existing.remove();
+    const badge = document.createElement('span');
+    badge.className = 'hot-period-badge';
+    badge.style.cssText = 'font-size:10px;padding:2px 8px;border-radius:10px;background:var(--primary-soft);color:var(--primary);font-weight:500';
+    badge.textContent = '📅 过去48小时';
+    top5Card.appendChild(badge);
+  }
+};
+
+
+// 初始化
+// =============================================
+renderAllHot();
+renderAllCompetitors();
+renderAllCalendar();
+</script>
+  <!-- 营销日历编辑模态框 -->
+  <div class="modal-overlay" id="calendarModal">
+    <div class="modal-box">
+      <div class="modal-title">
+        ✏️ 編輯營銷日曆 <span id="calEditRegion" style="font-weight:400;font-size:14px;color:var(--text-2)"></span>
+        <button class="modal-close" onclick="closeCalendarEditor()">✕</button>
+      </div>
+      
+      <!-- 添加/编辑表单 -->
+      <div class="modal-form" id="calEditForm">
+        <div class="full-width">
+          <label>📌 事件名称</label>
+          <input type="text" id="calEventName" placeholder="如：猫の日 🐱">
+        </div>
+        <div>
+          <label>📅 日期 (月/日)</label>
+          <input type="text" id="calEventDate" placeholder="MMDD 如：0722">
+        </div>
+        <div>
+          <label>🔴 优先级</label>
+          <select id="calEventLevel">
+            <option value="high">高優先</option>
+            <option value="medium">中優先</option>
+            <option value="low">低優先</option>
+          </select>
+        </div>
+        <div class="full-width">
+          <label>📝 备注 / 推荐话题</label>
+          <textarea id="calEventNote" placeholder="如：重要SNS行銷日 #猫の日 貓咪主題活動"></textarea>
+        </div>
+        <div class="btn-row">
+          <button class="btn" onclick="cancelEditEvent()">取消</button>
+          <button class="btn" onclick="saveCalEvent()" style="background:var(--primary);color:#fff;border-color:var(--primary)">💾 保存</button>
+        </div>
+      </div>
+      
+      <!-- 已有事件列表 -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+        <div style="font-size:13px;font-weight:600">已保存事件 (<span id="calEventCount">0</span>)</div>
+        <button class="btn btn-sm" onclick="addNewCalEvent()">➕ 新增事件</button>
+      </div>
+      <ul class="event-list" id="calEventList"></ul>
+      <div id="calNoEvents" style="text-align:center;padding:24px;color:var(--text-3);font-size:13px">暂无自定义事件</div>
+    </div>
+  </div>
+
+
+</body>
+</html>
