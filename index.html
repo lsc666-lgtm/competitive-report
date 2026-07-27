@@ -2610,63 +2610,39 @@ function generateDynamicHotTopics(regionKey) {
   }));
 }
 
-// Enhanced renderHotTopics with dynamic fallback
+// Enhanced renderHotTopics: always use dynamic data from competitors
 const dynamicRenderHotTopics = renderHotTopics;
 renderHotTopics = function() {
   const data = DATA[currentHotRegion];
   if (!data || !data.hotTopics) return;
   
-  // Try 3-day filter first
-  const threeDaysAgo = new Date();
-  threeDaysAgo.setHours(threeDaysAgo.getHours() - 72);
-  const cutoff = threeDaysAgo.getTime();
+  // Always generate from competitor weekly data (freshest data available)
+  const dynamicTop5 = generateDynamicHotTopics(currentHotRegion);
   
-  const filteredTop5 = data.hotTopics.top5.filter(item => {
-    if (!item.time) return true;
-    const timeStr = item.time.replace(/\//g, '-');
-    const dateObj = timeStr.length <= 10 ? new Date(timeStr + 'T00:00:00') : new Date(timeStr);
-    return dateObj.getTime() >= cutoff;
-  });
-  
-  if (filteredTop5.length === 0) {
-    // No posts within 3 days - generate from competitor data
-    const dynamicTop5 = generateDynamicHotTopics(currentHotRegion);
-    
-    if (dynamicTop5.length > 0) {
-      const originalTop5 = data.hotTopics.top5;
-      data.hotTopics.top5 = dynamicTop5;
-      dynamicRenderHotTopics();
-      data.hotTopics.top5 = originalTop5;
-      
-      const badge = document.querySelector('.hot-period-badge');
-      if (badge) badge.textContent = '📅 ' + (new Date().toLocaleDateString());
-      return;
-    }
-    
-    // Even dynamic data is empty - show empty state
+  if (dynamicTop5.length > 0) {
+    // Use dynamic data from competitors
     const originalTop5 = data.hotTopics.top5;
-    data.hotTopics.top5 = [];
+    data.hotTopics.top5 = dynamicTop5;
     dynamicRenderHotTopics();
     data.hotTopics.top5 = originalTop5;
     
-    const top5Card = document.querySelector('.hot-card:first-child #hotContentTop5');
-    if (top5Card) {
-      top5Card.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-3);font-size:13px">📭 过去3天内暂无竞品热门内容</div>';
-    }
     const badge = document.querySelector('.hot-period-badge');
-    if (badge) badge.textContent = '📅 过去3天 · 暂无内容';
+    if (badge) badge.textContent = '📅 竞品周数据 · ' + (new Date().toLocaleDateString('zh-TW'));
     return;
   }
   
-  // Has data within 3 days - use it
-  const displayTop5 = filteredTop5.slice(0, 5).map((item, i) => ({...item, rank: i + 1}));
+  // No competitor data at all - show empty state
   const originalTop5 = data.hotTopics.top5;
-  data.hotTopics.top5 = displayTop5;
+  data.hotTopics.top5 = [];
   dynamicRenderHotTopics();
   data.hotTopics.top5 = originalTop5;
   
+  const top5Card = document.querySelector('.hot-card:first-child #hotContentTop5');
+  if (top5Card) {
+    top5Card.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-3);font-size:13px">📭 暂无竞品数据</div>';
+  }
   const badge = document.querySelector('.hot-period-badge');
-  if (badge) badge.textContent = '📅 过去3天';
+  if (badge) badge.textContent = '📅 暂无数据';
 }
 
 // 初始化
