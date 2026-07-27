@@ -9,7 +9,7 @@ LOG="/tmp/competitive_report_deploy.log"
 echo "===== $(date) =====" >> "$LOG"
 
 echo "[1/3] 更新SNS数据..." | tee -a "$LOG"
-cd "$HOME/Desktop/我的/skill-codex/SNS爬虫" && bash update.sh >> "$LOG" 2>&1
+cd "$HOME/Desktop/我的/skill-codex/SNS爬虫/技术开发" && bash update.sh >> "$LOG" 2>&1
 
 echo "[2/3] 复制到Git仓库..." | tee -a "$LOG"
 cp "$REPORT_FILE" "$REPO_DIR/index.html"
