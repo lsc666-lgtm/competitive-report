@@ -2581,35 +2581,72 @@ renderCalendar = function(goToMonth) {
 };
 
 // =============================================
-// 热点 - 统一过去48小时时间周期
 // =============================================
-// 包装 renderHotTopics 以过滤过去48小时的帖子
-const originalRenderHotTopics = renderHotTopics;
+// 动态生成热门内容：从竞品周数据中提取
+// =============================================
+function generateDynamicHotTopics(regionKey) {
+  const data = DATA[regionKey];
+  if (!data || !data.competitors) return [];
+  
+  // Sort competitors by total engagement (likes + comments)
+  const sorted = [...data.competitors]
+    .filter(c => c.weekly && c.weekly.engagement)
+    .sort((a, b) => {
+      const aEng = (parseFloat(a.weekly.engagement.likes) || 0) + (parseFloat(a.weekly.engagement.comments) || 0);
+      const bEng = (parseFloat(b.weekly.engagement.likes) || 0) + (parseFloat(b.weekly.engagement.comments) || 0);
+      return bEng - aEng;
+    });
+  
+  const now = new Date();
+  const dateStr = now.getFullYear() + '-' + String(now.getMonth()+1).padStart(2,'0') + '-' + String(now.getDate()).padStart(2,'0');
+  
+  return sorted.slice(0, 5).map((c, i) => ({
+    rank: i + 1,
+    game: c.name,
+    content: (c.weekly.mainTopic || c.weekly.summary || '').slice(0, 80),
+    engagement: '👍' + (c.weekly.engagement.likes || '0') + ' 💬' + (c.weekly.engagement.comments || '0'),
+    link: '',
+    time: dateStr
+  }));
+}
+
+// Enhanced renderHotTopics with dynamic fallback
+const dynamicRenderHotTopics = renderHotTopics;
 renderHotTopics = function() {
   const data = DATA[currentHotRegion];
   if (!data || !data.hotTopics) return;
   
-  // 计算48小时前的时间戳
-  const fortyEightHoursAgo = new Date();
-  fortyEightHoursAgo.setHours(fortyEightHoursAgo.getHours() - 72);
-  const cutoff = fortyEightHoursAgo.getTime();
+  // Try 3-day filter first
+  const threeDaysAgo = new Date();
+  threeDaysAgo.setHours(threeDaysAgo.getHours() - 72);
+  const cutoff = threeDaysAgo.getTime();
   
-  // 过滤 top5 中过去48小时的帖子
   const filteredTop5 = data.hotTopics.top5.filter(item => {
     if (!item.time) return true;
-    // 支持多种日期格式: "2026-07-19", "2026/07/19", "2026-07-17T10:30:00"
     const timeStr = item.time.replace(/\//g, '-');
-    // 如果是纯日期格式(YYYY-MM-DD)，转为当日0点时间戳
     const dateObj = timeStr.length <= 10 ? new Date(timeStr + 'T00:00:00') : new Date(timeStr);
     return dateObj.getTime() >= cutoff;
   });
   
-  // 过滤后的 top5 重新编号
   if (filteredTop5.length === 0) {
-    // No posts within 48 hours - show empty state
+    // No posts within 3 days - generate from competitor data
+    const dynamicTop5 = generateDynamicHotTopics(currentHotRegion);
+    
+    if (dynamicTop5.length > 0) {
+      const originalTop5 = data.hotTopics.top5;
+      data.hotTopics.top5 = dynamicTop5;
+      dynamicRenderHotTopics();
+      data.hotTopics.top5 = originalTop5;
+      
+      const badge = document.querySelector('.hot-period-badge');
+      if (badge) badge.textContent = '📅 ' + (new Date().toLocaleDateString());
+      return;
+    }
+    
+    // Even dynamic data is empty - show empty state
     const originalTop5 = data.hotTopics.top5;
     data.hotTopics.top5 = [];
-    originalRenderHotTopics();
+    dynamicRenderHotTopics();
     data.hotTopics.top5 = originalTop5;
     
     const top5Card = document.querySelector('.hot-card:first-child #hotContentTop5');
@@ -2621,37 +2658,16 @@ renderHotTopics = function() {
     return;
   }
   
+  // Has data within 3 days - use it
   const displayTop5 = filteredTop5.slice(0, 5).map((item, i) => ({...item, rank: i + 1}));
-  
-  // 保存原始数据并替换
   const originalTop5 = data.hotTopics.top5;
   data.hotTopics.top5 = displayTop5;
-  
-  // 调用原始渲染函数
-  originalRenderHotTopics();
-  
-  // 恢复原始数据
+  dynamicRenderHotTopics();
   data.hotTopics.top5 = originalTop5;
   
-  // 添加"过去48小时"标签
-  const periodBadge = document.createElement('div');
-  periodBadge.style.cssText = 'text-align:right;font-size:11px;color:var(--text-3);padding:8px 4px 0';
-  const totalItems = filteredTop5.length;
-  const badgeText = data.hotTopics.top5.length + '条热门 · 过去3天';
-  
-  // 在 top5 卡片头部加时间标识
-  const top5Card = document.querySelector('.hot-card:first-child .hot-card-head');
-  if (top5Card) {
-    const existing = top5Card.querySelector('.hot-period-badge');
-    if (existing) existing.remove();
-    const badge = document.createElement('span');
-    badge.className = 'hot-period-badge';
-    badge.style.cssText = 'font-size:10px;padding:2px 8px;border-radius:10px;background:var(--primary-soft);color:var(--primary);font-weight:500';
-    badge.textContent = '📅 过去3天';
-    top5Card.appendChild(badge);
-  }
-};
-
+  const badge = document.querySelector('.hot-period-badge');
+  if (badge) badge.textContent = '📅 过去3天';
+}
 
 // 初始化
 // =============================================
