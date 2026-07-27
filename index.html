@@ -2588,6 +2588,34 @@ function generateDynamicHotTopics(regionKey) {
   const data = DATA[regionKey];
   if (!data || !data.competitors) return [];
   
+  // Competitor social media links
+  const SOCIAL_LINKS = {
+    // JP
+    'LINE POP': 'https://x.com/LINE_POP2_JP',
+    'どうぶつの森 (Animal Crossing)': 'https://x.com/animalcrossing',
+    'ロウロウの郷': 'https://x.com/rowrow_kuni',
+    '猫とスープ': 'https://x.com/cats_soup_jp',
+    'ねこレストラン': 'https://x.com/nekorestaurant',
+    // US
+    'Project Makeover': 'https://www.instagram.com/projectmakeovergame/',
+    'The Sims Mobile': 'https://www.instagram.com/thesimsmobile/',
+    'Heartopia': 'https://www.instagram.com/heartopia_official/',
+    'Disney Magic Kingdoms': 'https://www.instagram.com/disneymagickingdoms/',
+    'Time Princess': 'https://www.instagram.com/timeprincesses/',
+    'Animal Crossing: Pocket Camp': 'https://www.instagram.com/animalcrossing_official/',
+    // HKTW
+    '心動小鎮 Heartopia': 'https://www.facebook.com/HeartopiaTW',
+    '桃園深處有人家': 'https://www.facebook.com/Luoluo.Official',
+    '閃耀暖暖 Shining Nikki': 'https://www.facebook.com/ShiningNikkiTW',
+    '戀與深空 Love and Deepspace': 'https://www.facebook.com/LoveandDeepspaceEN',
+    '奇蹟暖暖': 'https://www.facebook.com/NikkiMiraland',
+    '食物語': 'https://www.facebook.com/FoodWingJade',
+    '小森生活': 'https://www.facebook.com/KomorinoLife',
+    '角落生物 Sumikko Gurashi': 'https://www.facebook.com/sumikkogurashiofficial',
+    '江南百景圖': 'https://www.facebook.com/JiangnanScene',
+    '動物餐廳 Animal Restaurant': 'https://www.facebook.com/animalrestaurantTW/',
+  };
+  
   // Sort competitors by total engagement (likes + comments)
   const sorted = [...data.competitors]
     .filter(c => c.weekly && c.weekly.engagement)
@@ -2605,7 +2633,7 @@ function generateDynamicHotTopics(regionKey) {
     game: c.name,
     content: (c.weekly.mainTopic || c.weekly.summary || '').slice(0, 80),
     engagement: '👍' + (c.weekly.engagement.likes || '0') + ' 💬' + (c.weekly.engagement.comments || '0'),
-    link: '',
+    link: SOCIAL_LINKS[c.name] || '',
     time: dateStr
   }));
 }
