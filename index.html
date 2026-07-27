@@ -2591,7 +2591,7 @@ renderHotTopics = function() {
   
   // 计算48小时前的时间戳
   const fortyEightHoursAgo = new Date();
-  fortyEightHoursAgo.setHours(fortyEightHoursAgo.getHours() - 48);
+  fortyEightHoursAgo.setHours(fortyEightHoursAgo.getHours() - 72);
   const cutoff = fortyEightHoursAgo.getTime();
   
   // 过滤 top5 中过去48小时的帖子
@@ -2617,7 +2617,7 @@ renderHotTopics = function() {
       top5Card.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-3);font-size:13px">📭 48小时内暂无竞品热门内容</div>';
     }
     const badge = document.querySelector('.hot-period-badge');
-    if (badge) badge.textContent = '📅 过去48小时 · 暂无内容';
+    if (badge) badge.textContent = '📅 过去3天 · 暂无内容';
     return;
   }
   
@@ -2647,7 +2647,7 @@ renderHotTopics = function() {
     const badge = document.createElement('span');
     badge.className = 'hot-period-badge';
     badge.style.cssText = 'font-size:10px;padding:2px 8px;border-radius:10px;background:var(--primary-soft);color:var(--primary);font-weight:500';
-    badge.textContent = '📅 过去48小时';
+    badge.textContent = '📅 过去3天';
     top5Card.appendChild(badge);
   }
 };
