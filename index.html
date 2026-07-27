@@ -2614,7 +2614,7 @@ renderHotTopics = function() {
     
     const top5Card = document.querySelector('.hot-card:first-child #hotContentTop5');
     if (top5Card) {
-      top5Card.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-3);font-size:13px">📭 48小时内暂无竞品热门内容</div>';
+      top5Card.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-3);font-size:13px">📭 过去3天内暂无竞品热门内容</div>';
     }
     const badge = document.querySelector('.hot-period-badge');
     if (badge) badge.textContent = '📅 过去3天 · 暂无内容';
@@ -2637,7 +2637,7 @@ renderHotTopics = function() {
   const periodBadge = document.createElement('div');
   periodBadge.style.cssText = 'text-align:right;font-size:11px;color:var(--text-3);padding:8px 4px 0';
   const totalItems = filteredTop5.length;
-  const badgeText = data.hotTopics.top5.length + '条热门 · 过去48小时';
+  const badgeText = data.hotTopics.top5.length + '条热门 · 过去3天';
   
   // 在 top5 卡片头部加时间标识
   const top5Card = document.querySelector('.hot-card:first-child .hot-card-head');
