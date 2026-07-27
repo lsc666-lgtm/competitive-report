@@ -1685,8 +1685,10 @@ function renderHotTopics() {
     const info=el('div',{class:'hot-game-info'});
     info.appendChild(el('div',{class:'hot-game-name'},item.game,el('span',{class:'hot-game-rank'},'#'+(i+1))));
     info.appendChild(el('div',{style:{fontSize:'12px',color:'var(--text-2)',margin:'2px 0'}},item.content));
-    info.appendChild(el('div',{class:'hot-item-meta'},'📊 '+item.engagement+(item.time?' · ⏱ '+item.time:'')));
-    if(item.link){info.appendChild(el('a',{class:'post-link',href:item.link,target:'_blank',rel:'noopener noreferrer'},'🔗 查看原貼'));}
+    info.appendChild(el('div',{class:'hot-item-meta'},
+      '📊 '+item.engagement+(item.time?' · ⏱ '+item.time:''),
+      item.link ? el('a',{class:'post-link',href:item.link,target:'_blank',rel:'noopener noreferrer'},' 🔗 查看原貼') : null
+    ));
     if(item.time){info.appendChild(el('span',{style:{fontSize:'10px',color:'var(--text-3)',marginLeft:'4px'}},'📅 '+item.time));}
     row.appendChild(icon);row.appendChild(info);div.appendChild(row);c1.appendChild(div);
   });}
